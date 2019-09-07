@@ -116,7 +116,21 @@ get_confusion_stat <- function(pred,y_real,threshold=0.5){
 ```
 
 ## 连续值预测的评估
- 未完待续...
+连续型变量的预测，通常使用MAPE和RMSE
+
+### MAPE
+MAPE（mean absolute percentage error）为平均百分比误差，预测连续型数据的准确率一般指`1-MAPE`，例如预测未来10个月的GDP数据，准确率达到98%，即代表该模型的预测 MAPE 为2%
+
+$$M A P E=\sum_{t=1}^{n}\left|\frac{\text {observed}_{t}-\text {predicted}_{t}}{\text {observed}_{t}}\right| \times \frac{100}{n}$$
+
+### MSE/RMSE
+RMSE(root mean square error)为均方根误差，相应的MSE(mean square error)即为误差的平方和，两者含义一致，指标越小则模型效果越好。
+
+$$R M S E=\sqrt{\frac{1}{N} \sum_{t=1}^{N}\left(\text {observed}_{t}-\text {predicted}_{t}\right)^{2}}$$
+
+
+	
+
 
  
  
