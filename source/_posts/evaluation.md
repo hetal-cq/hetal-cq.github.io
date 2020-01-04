@@ -6,6 +6,7 @@ tags:
 	- 混淆矩阵
 	- AUC
 	- MAPE
+  - R²
 categories: 
 	- 评估
 comments: on
@@ -59,7 +60,7 @@ comments: on
  
  ROC曲线优势就是，当正负样本的分布发生变化时，其形状能够基本保持不变，因此其面积`AUC`值，可以说是极度适用于不平衡样本（例如以上的银行逾期数据，正负比极度不均衡）的建模评估了。`AUC`越大，模型分类效果越好，一般来说，`AUC`低于0.7的模型基本上是个废柴了。（若在正负样本比1:1情况下全预测为0或者1，`AUC`即为0.5）
  
- ### R语言实现
+### R语言实现
 可使用`ROCR`包计算AUC值，混淆矩阵自己写即可，代码如下：
 ```{r}
 library(ROCR)
@@ -96,7 +97,7 @@ get_confusion_stat <- function(pred,y_real,threshold=0.5){
 ```
  
  引用上篇[lasso-R示例](https://hetal-cq.github.io/)博文的评估结果示例如下：
- ```{r}
+```{r}
 # $AUC
 # [1] 0.8406198
 
@@ -116,7 +117,7 @@ get_confusion_stat <- function(pred,y_real,threshold=0.5){
 ```
 
 ## 连续值预测的评估
-连续型变量的预测，通常使用MAPE和RMSE
+连续型变量的预测，通常使用MAPE和RMSE。对于回归问题的模型还经常使用拟合优度 $R^2$ 作为评估指标。
 
 ### MAPE
 MAPE（mean absolute percentage error）为平均百分比误差，预测连续型数据的准确率一般指`1-MAPE`，例如预测未来10个月的GDP数据，准确率达到98%，即代表该模型的预测 MAPE 为2%。
@@ -126,8 +127,47 @@ $$MAPE=\sum_{t=1}^{n}\left|\frac{\text {observed}_{t}-\text {predicted}_t}{\text
 RMSE(root mean square error)为均方根误差，相应的MSE(mean square error)即为误差的平方和，两者含义一致，指标越小则模型效果越好。
 $$RMSE=\sqrt{\frac{1}{N} \sum_{t=1}^{N}\left(\text {observed}_t-\text {predicted}_t\right)^{2}}$$
 
+### 拟合优度
+拟合优度（Goodness of Fit）是指回归直线对观测值的拟合程度。
+
+#### R²/可决系数
+度量拟合优度的统计量是可决系数（亦称确定系数）R²。R²的值越接近1，说明回归直线对观测值的拟合程度越好；反之，R²的值越小，说明回归直线对观测值的拟合程度越差。R²等于回归平方和（ explained sum of squares）在总平方和（ total sum of squares）中所占的比率，即回归方程所能解释的因变量变异性的百分比。
+> 注意，回归问题才能用R²衡量
+
+$$ R^{2} = \frac{S S_{\mathrm{reg}}}{S S_{\mathrm{tss}}}=1-\frac{S S_{\mathrm{rss}}}{S S_{\mathrm{tss}}} = 1- \frac{\sum_{i}\left(y_{i}-f_{i}\right)^{2}}{\sum_{i}\left(y_{i}-\bar{y}\right)^{2}} $$
+
+由以上公式实际上可知，在带有截距项的线性最小二乘多元回归中（注意这个*前提条件*），$R^2$就是预测值和实际值相关系数的平方，即（注意，一定是线性回归模型才行）：
+
+$$ R^{2}=cor(y_{real},y_{fit})^{2} $$
+
+#### 调整的R²
+在模型中增加多个变量（即使是无实际意义的变量）也能小幅度提高R平方的值，因此需要考虑模型的变量数作为相应惩罚，于是得到调整的R²如下：
+
+$$ R_{adjusted}^{2} =1-\frac{S S_{\mathrm{rss}}/(n-p-1))}{S S_{\mathrm{tss}}/(n-1)}$$
+
+### R语言实现
+```{r}
+# MAPE
+get_mape <- function(fit,y){
+  # 实际值为0的，直接不纳入计算
+  re <- round(mean(ifelse(y==0,NA,abs(y-fit)/y),na.rm=T)*100,1)
+  return(re)
+}
+
+# R方，可决系数，coefficient of determination
+get_rsq <- function(preds,actual,p=1){
+  rss <- sum((actual - preds) ^ 2)
+  tss <- sum((actual - mean(actual)) ^ 2)
+  rsq <- round(1 - rss/tss,3)
+  n <- length(preds)
+  # 调整的R方 1-(1-rsq)*(n-1)/(n-1-1) 也一样
+  rsq_ad <- round(1 - (rss/(n-p-1))/(tss/(n-1)),3)
+  return(list('rsq'=rsq,
+              'rsq_ad'=rsq_ad))
+}
 
 
+```
 
 
 
