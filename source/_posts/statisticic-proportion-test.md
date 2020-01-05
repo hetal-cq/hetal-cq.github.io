@@ -16,9 +16,8 @@ tags:
 前提条件：
 - 样本取自两点分布 $X \sim B(1,p)$
 - 样本量$n$很大，能够满足 $np>5$ 且 $n(1-p)>5$
-- 记要检验的原假设为为 $H_0: p=p_0$
 
-则样本比例 $\widetilde{\mathrm{p}}$服从方差为$p(1-p)/n$的正态分布，对应标准化的检验统计量近似服从$N(0,1)$ ：
+记要检验的原假设为为 $H_0: p=p_0$,则样本比例 $\widetilde{\mathrm{p}}$服从方差为$p(1-p)/n$的正态分布，对应标准化的检验统计量近似服从$N(0,1)$ ：
 
 $$
 \mathrm{u}=\frac{\sqrt{\mathrm{n}}\left(\widetilde{\mathrm{p}}-\mathrm{p}_{0}\right)}{\sqrt{\mathrm{p}_0\left(1-\mathrm{p}_0\right)}}
