@@ -10,6 +10,7 @@ tags:
 ---
 
 
+
 总体比率的假设检验实际上是业界最常用也是最需要的检验，例如在ABtest中，检验两个实验的转化率是否有显著差异，则需要用到比率检验。
 
 ## 单总体比率的假设检验
@@ -70,7 +71,7 @@ $$
 
 ### 单总体比率检验
 
-```
+```{r}
 x=60
 n=2000
 p_real=x/n
@@ -88,8 +89,9 @@ prop.test(x, n,p0, correct = F)
 ```
 
 实际上单比率检验，推荐直接使用精确的二项分布的假设检验即可。可以看到p值远小于0.05，因此拒绝比率是 $p_0$ 的原假设，认为改总体比率不为$p_0$ 。
-```{r}
-binom.test(x, n, p0)
+
+```
+# > binom.test(x, n, p0)
 # Exact binomial test
 # 
 # data:  x and n
@@ -101,8 +103,6 @@ binom.test(x, n, p0)
 # sample estimates:
 #     probability of success 
 # 0.03 
-
-
 ```
 
 
