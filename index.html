@@ -1,0 +1,2876 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="记录数据科学中常用的模型+代码+技巧">
+<meta property="og:type" content="website">
+<meta property="og:title" content="学习随记">
+<meta property="og:url" content="http://yoursite.com/index.html">
+<meta property="og:site_name" content="学习随记">
+<meta property="og:description" content="记录数据科学中常用的模型+代码+技巧">
+<meta property="og:locale" content="zh-Hans">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="学习随记">
+<meta name="twitter:description" content="记录数据科学中常用的模型+代码+技巧">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/">
+
+
+
+
+
+  <title>学习随记</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left 
+  page-home">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">学习随记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">hetal</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+  <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/04/statisticic-proportion-test/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hetal">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="学习随记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/01/04/statisticic-proportion-test/" itemprop="url">比率p的假设检验</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-01-04T21:04:04+08:00">
+                2020-01-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/统计/" itemprop="url" rel="index">
+                    <span itemprop="name">统计</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/统计/假设检验/" itemprop="url" rel="index">
+                    <span itemprop="name">假设检验</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/01/04/statisticic-proportion-test/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/01/04/statisticic-proportion-test/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2020/01/04/statisticic-proportion-test/" class="leancloud_visitors" data-flag-title="比率p的假设检验">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>总体比率的假设检验实际上是业界最常用也是最需要的检验，例如在ABtest中，检验两个实验的转化率是否有显著差异，则需要用到比率检验。</p>
+<h2 id="单总体比率的假设检验"><a href="#单总体比率的假设检验" class="headerlink" title="单总体比率的假设检验"></a>单总体比率的假设检验</h2><p>前提条件：</p>
+<ul>
+<li>样本取自两点分布 $X \sim B(1,p)$</li>
+<li>样本量$n$很大，能够满足 $np&gt;5$ 且 $n(1-p)&gt;5$</li>
+</ul>
+<p>记要检验的原假设为为 $H_0: p=p_0$,则样本比率 $\widetilde{\mathrm{p}}$服从方差为$p(1-p)/n$的正态分布，对应标准化的检验统计量近似服从$N(0,1)$ ：</p>
+<p>$$<br>\mathrm{u}=\frac{\sqrt{\mathrm{n}}\left(\widetilde{\mathrm{p}}-\mathrm{p}_{0}\right)}{\sqrt{\mathrm{p}_0\left(1-\mathrm{p}_0\right)}}<br>$$</p>
+<blockquote>
+<p>实际上，当样本量很少时，需要采用精确的比率检验，即直接使用二项分布来检验，具体实现见下文的R代码。</p>
+</blockquote>
+<h2 id="两个总体比率的假设检验"><a href="#两个总体比率的假设检验" class="headerlink" title="两个总体比率的假设检验"></a>两个总体比率的假设检验</h2><p>检验前提条件：</p>
+<ul>
+<li>两总体互相独立</li>
+<li>变量都取自两点分布，即两总体服从二项分布</li>
+<li>两总体且每类的样本量满足大于5的要求，从而能用正态分布来近似</li>
+</ul>
+<p>那么可知：</p>
+<p>$$<br>\frac{\left(\widetilde{\mathrm{p}}_1-\widetilde{\mathrm{p}}_2\right)-\left(\mathrm{p}_1-\mathrm{p}_2\right)}{\frac{\mathrm{p}_1\left(1-\mathrm{p}_1\right)}{\mathrm{n}_1}+\frac{\mathrm{p}_2\left(1-\mathrm{p}_2\right)}{\mathrm{n}_2}} \approx \frac{\left(\widetilde{\mathrm{p}}_1-\widetilde{\mathrm{p}}_2\right)-\left(\mathrm{p}_1-\mathrm{p}_2\right)}{\frac{\mathbb{p}_1\left(1-\widetilde{\mathrm{p}}_1\right)}{\mathrm{n}_1}+\frac{\widetilde{\mathrm{p}}_2\left(1-\widetilde{\mathrm{p}}_2\right)}{\mathrm{n}_2}} \sim \mathrm{N}(0,1)<br>$$</p>
+<p>因此对应的标准化检验统计量如下：</p>
+<ul>
+<li>1)当原假设为$H_0:p_1-p_2=0$时，最佳估计量为联合两组样本的比率$\hat{\mathrm{p}}=\frac{\mathrm{x}_1+\mathrm{x}_2}{\mathrm{n}_1+\mathrm{n}_2}=\frac{\mathrm{p}_1 \mathrm{n}_1+\mathrm{p}_2 \mathrm{n}_2}{\mathrm{n}_1+\mathrm{n}_2}$，于是检验统计量如下：</li>
+</ul>
+<p>$$<br>z=\frac{\left(\widetilde{p}_1-\widetilde{p}_2\right)-0}{\frac{\hat{p}(1-\hat{p})}{n_1}+\frac{\hat{p}(1-\hat{p})}{n_2}}=\frac{\left(\tilde{p}_1-\tilde{p}_2\right)}{\hat{p}(1-\hat{p})\left(\frac{1}{n_1}+\frac{1}{n_2}\right)}<br>$$</p>
+<ul>
+<li>2)当原假设为$H_0:p_1-p_2=d_0(d_0 \neq 0)$时，直接用两个样本的比率$\widetilde{p}_1$和$\widetilde{p}_2$相应估计两个总体的的比率$p_1$和$p_2$，于是检验统计量入下：<br>$$<br>z=\frac{\left(\bar{p}_1-\bar{p}_2\right)-d_0}{\frac{\bar{p}_1\left(1-\bar{p}_1\right)}{n_1}+\frac{\bar{p}_2\left(1-\widetilde{p}_2\right)}{n_2}}<br>$$</li>
+</ul>
+<h2 id="R语言实现"><a href="#R语言实现" class="headerlink" title="R语言实现"></a>R语言实现</h2><p>除了直接用代码写上面的公式，实际上可以直接使用现成的检验函数：<code>chisq.test</code> 和 <code>prop.test</code>，这两个函数默认都会加Yates 校正（修正小样本的影响，具体见文末），但要得到和上文公式一样的结果，则注意限制<code>correct = F</code> 。</p>
+<ul>
+<li>检验单总体比率是否等于特定的值：<ul>
+<li><code>prop.test</code>，大样本才适用的近似检验<ul>
+<li>不加Yates 校正和上文公式结果的平方一致（小样本一般都需要加Yates 校正） </li>
+</ul>
+</li>
+<li><code>binom.test</code>，精确的比率检验，即直接使用二项分布检验是否是该比率</li>
+</ul>
+</li>
+<li>检验两总体比率是否相等:<ul>
+<li><code>chisq.test</code>，大样本才适应的近似检验<ul>
+<li>不加Yates 校正和上文公式结果的平方一致（小样本一般都需要加Yates 校正）</li>
+<li>正态分布平方，服从自由度为1的卡方分布</li>
+<li>注意卡方检验的传参：是两个样本分别取0和1的数量（而不是取1的量和整体量n）</li>
+</ul>
+</li>
+<li>Fisher 精确检验，适用于小样本量（此处暂无示例）</li>
+</ul>
+</li>
+</ul>
+<h3 id="单总体比率检验"><a href="#单总体比率检验" class="headerlink" title="单总体比率检验"></a>单总体比率检验</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">x=60</span><br><span class="line">n=2000</span><br><span class="line">p_real=x/n</span><br><span class="line">p0=0.02</span><br><span class="line">u=sqrt(n)*(p_real-p0)/sqrt(p0*(1-p0))</span><br><span class="line">u^2</span><br><span class="line"># 不加校正，得到和u^2一致的结果</span><br><span class="line">prop.test(x, n,p0, correct = F)</span><br><span class="line"></span><br><span class="line"># &gt; u^2</span><br><span class="line"># [1] 10.20408</span><br><span class="line"># &gt; prop.test(x, n,p0, correct = F)$statistic</span><br><span class="line"># X-squared </span><br><span class="line"># 10.20408</span><br></pre></td></tr></table></figure>
+<p>实际上单比率检验，推荐直接使用精确的二项分布的假设检验即可。可以看到p值远小于0.05，因此拒绝比率是 $p_0$ 的原假设，认为改总体比率不为$p_0$ 。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># &gt; binom.test(x, n, p0)</span><br><span class="line"># Exact binomial test</span><br><span class="line"># </span><br><span class="line"># data:  x and n</span><br><span class="line"># number of successes = 60, number of trials =</span><br><span class="line">#     2000, p-value = 0.002974</span><br><span class="line"># alternative hypothesis: true probability of success is not equal to 0.02</span><br><span class="line"># 95 percent confidence interval:</span><br><span class="line">#     0.02296955 0.03844886</span><br><span class="line"># sample estimates:</span><br><span class="line">#     probability of success </span><br><span class="line"># 0.03</span><br></pre></td></tr></table></figure>
+<h3 id="两总体比率相等的假设检验"><a href="#两总体比率相等的假设检验" class="headerlink" title="两总体比率相等的假设检验"></a>两总体比率相等的假设检验</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"># 检验的样本如下：</span><br><span class="line">a=19;b=22;c=52;d=39</span><br><span class="line">pA=a/(a+c);pB=b/(b+d)</span><br><span class="line">nA=a+c;nB=b+d</span><br><span class="line"></span><br><span class="line"># 借助chisq.test检验两总体比率是否一致</span><br><span class="line">a1 &lt;- rbind(c(nA*(1-pA),nA*pA), c(nB*(1-pB), nB*pB))</span><br><span class="line"># 此处为了保持一致未加Yates 校正，但实际应用最好设置 correct=T</span><br><span class="line">chisq.test(a1,correct=F)</span><br><span class="line"></span><br><span class="line"># 直接计算统计量，和上面卡方检验的X-squared一致，都是 1.326693</span><br><span class="line">p_fit=(a+b)/(a+b+c+d)</span><br><span class="line">z2=(pA-pB)/sqrt((1/nA+1/nB)*p_fit*(1-p_fit))</span><br><span class="line">z2^2</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># &gt; chisq.test(a1,correct=F)</span><br><span class="line"># </span><br><span class="line"># Pearson&apos;s Chi-squared test</span><br><span class="line"># </span><br><span class="line"># data:  a1</span><br><span class="line"># X-squared = 1.3267, df = 1, p-value = 0.2494</span><br><span class="line"># </span><br><span class="line"># &gt; z2^2</span><br><span class="line"># [1] 1.326693</span><br></pre></td></tr></table></figure>
+<p>可以看到p值大于0.05，认为无法拒绝原假设，即$p_1=p_2$ </p>
+<blockquote>
+<p>注意只是在这次样本里找不到拒绝的理由，不代表这两个比率就一定相等了</p>
+</blockquote>
+<h3 id="Yates-校正"><a href="#Yates-校正" class="headerlink" title="Yates 校正"></a>Yates 校正</h3><p>小样本情况时Yates 校正后的卡方统计量可信度更高（大样本时对其影响很微弱），因此我们最常用加了Yates 校正后的比率检验，对应Yates 校正实际上是对卡方分布的统计量的修正，取平方之前将正偏差(观测-期望)减0.5，负偏差时加0.5，对应公式如下：</p>
+<p>$$<br>\mathrm{X}^2((n_1-1)*(n_2-1)) = \sum_{i=1}^{n_1}\sum_{j=1}^{n_2} \frac{\left(\left|O_{ij}-E_{ij}\right|-0.5\right)^2}{\mathrm{E}_{\mathrm{ij}}}<br>$$</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/04/feature-var-bins/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hetal">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="学习随记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/01/04/feature-var-bins/" itemprop="url">变量分箱</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-01-04T20:49:18+08:00">
+                2020-01-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/特征处理/" itemprop="url" rel="index">
+                    <span itemprop="name">特征处理</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/01/04/feature-var-bins/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/01/04/feature-var-bins/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2020/01/04/feature-var-bins/" class="leancloud_visitors" data-flag-title="变量分箱">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>特征处理实际是整个建模过程中耗时最多，实际也是最重要最有意义的部分，所谓巧妇难为无米之炊。当我们有了米该如何淘呢？那么变量分箱则是实现’模型稳健性’+’业务实用性’的一大杀器。</p>
+<p>我最喜欢的分箱方法：对x直接建决策树，参考其分割点，结合业务背景微调成为想要的cutoff。R代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">library(partykit)</span><br><span class="line">get_bins &lt;- function(df,x,y,p=0.05)&#123;</span><br><span class="line">  print(paste(&apos;----- x: &apos;,x,&apos; ---------&apos;))</span><br><span class="line">  df=as.data.frame(df)</span><br><span class="line">  ctree = ctree(formula(paste(y, &quot;~&quot;, x)), data = df, na.action = na.exclude, </span><br><span class="line">                control = ctree_control(minbucket = ceiling(round(p * nrow(df)))))</span><br><span class="line">  bins = width(ctree)</span><br><span class="line">  if (bins &lt; 2) &#123;</span><br><span class="line">    return(list(&apos;ctree&apos;=&quot;No significant splits&quot;,</span><br><span class="line">                &apos;cutvct&apos;=&quot;No significant splits&quot;))</span><br><span class="line">  &#125;</span><br><span class="line">  cutvct = data.frame(matrix(ncol = 0, nrow = 0))</span><br><span class="line">  n = length(ctree)</span><br><span class="line">  for (i in 1:n) &#123;</span><br><span class="line">    cutvct = rbind(cutvct, ctree[i]$node$split$breaks)</span><br><span class="line">  &#125;</span><br><span class="line">  cutvct = cutvct[order(cutvct[, 1]), ]</span><br><span class="line">  return(list(&apos;ctree&apos;=ctree,&apos;cutvct&apos;=cutvct))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">get_var_cut &lt;- function(cut_name = &apos;eg&apos;,</span><br><span class="line">                        the_breaks = c(-1,2,3),</span><br><span class="line">                        dt=dat_model_data,</span><br><span class="line">                        the_labels=NA)&#123;</span><br><span class="line">  # 根据传入的指标和分割点，给数据框新增cut后的一列，命名以_cut结尾</span><br><span class="line">  if(is.na(the_labels))&#123;</span><br><span class="line">    the_labels  &lt;- paste0(the_breaks[-length(the_breaks)],&apos;~&apos;,the_breaks[-1])</span><br><span class="line">  &#125;</span><br><span class="line">  # 注意，cut是左开右闭类型( ]</span><br><span class="line">  re_cut &lt;- cut(dt[[cut_name]],breaks = the_breaks,labels = the_labels)</span><br><span class="line">  dt[[paste0(cut_name,&apos;_cut&apos;)]] &lt;- re_cut</span><br><span class="line">  return(dt)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>以上为工作中总结出的代码，屡试不爽，具体原理和和科学分析，且听下回分解…</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/08/exception-handling/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hetal">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="学习随记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/08/exception-handling/" itemprop="url">异常处理-R与Python</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-08T00:00:00+08:00">
+                2019-09-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术语言/" itemprop="url" rel="index">
+                    <span itemprop="name">技术语言</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/09/08/exception-handling/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/09/08/exception-handling/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/09/08/exception-handling/" class="leancloud_visitors" data-flag-title="异常处理-R与Python">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>本文将简单介绍R和Python中常用的异常处理方式。</p>
+<h2 id="R"><a href="#R" class="headerlink" title="R"></a>R</h2><p>R中常用<code>try</code>和<code>tryCatch</code></p>
+<h3 id="try"><a href="#try" class="headerlink" title="try"></a>try</h3><p>如果只是为了某段代码不影响后续脚本的执行，最简单的办法就是直接在外层套上<code>try()</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 如果该语句失败也没关系，那么可以直接用偷懒的写法:try</span><br><span class="line">print(&apos;-- 开始 --&apos;)</span><br><span class="line">try(o &lt;- &apos;error&apos;+2) # 会输出报错，但是程序不会停止，接下来的代码可以继续运行</span><br><span class="line">print(&apos;-- 结束 --&apos;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># [1] &quot;-- 开始 --&quot;</span><br><span class="line"># Warning message:</span><br><span class="line"># In strsplit(code, &quot;\n&quot;, fixed = TRUE) :</span><br><span class="line">  # input string 1 is invalid in this locale</span><br><span class="line"># Error in &quot;error&quot; + 2 : non-numeric argument to binary operator</span><br><span class="line"># [1] &quot;-- 结束 --&quot;</span><br></pre></td></tr></table></figure>
+<h3 id="trycatch"><a href="#trycatch" class="headerlink" title="trycatch"></a>trycatch</h3><p>最常见的异常处理函数是<code>tryCatch</code>，能够让代码更加flexible</p>
+<h4 id="简单示例"><a href="#简单示例" class="headerlink" title="简单示例:"></a>简单示例:</h4><ul>
+<li><code>&#39;error&#39;+2</code>报错</li>
+<li>错误记录在<code>e</code>中 并打印</li>
+<li>报错后，对应变量 <code>o</code> 被赋值为3</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tryCatch(&#123;o &lt;- &apos;error&apos;+2&#125;, error = function(e) print(e), call = (o &lt;- 3))</span><br><span class="line">print(o)</span><br><span class="line"># [1] 3</span><br></pre></td></tr></table></figure>
+<h4 id="call的使用"><a href="#call的使用" class="headerlink" title="call的使用"></a>call的使用</h4><p>为了防止一段代码出错，保证后续继续运行，并记录具体出错的位置，可以结合 <code>call</code> 使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">error_ls &lt;- c()</span><br><span class="line">i &lt;- 0</span><br><span class="line">for(x in c(-2:2))&#123;</span><br><span class="line">    i &lt;- i+1</span><br><span class="line">    tryCatch(</span><br><span class="line">        expr=&#123;x1 &lt;- ifelse(x&gt;0, x, &quot;make error&quot;) + 1</span><br><span class="line">        error_ls[i] &lt;- &apos;success&apos;</span><br><span class="line">        &#125;,</span><br><span class="line">        error = function(e)&#123;</span><br><span class="line">            cat(&apos;Error: &apos;, e$message, &apos;index: &apos;,i,&apos;\n&apos;)&#125;, </span><br><span class="line">        call = (</span><br><span class="line">            # 如果报错，则对 x1 和 error_ls 重赋值</span><br><span class="line">            &#123;x1 &lt;- 100</span><br><span class="line">            error_ls[i] &lt;- &apos;error&apos;&#125;))</span><br><span class="line">    cat(&apos;x1: &apos;,x1,&apos;\n&apos;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>x&lt;=0</code>时都会报错，并给x1重赋值为100，<code>x&gt;0</code>时则正常运行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># Error:  non-numeric argument to binary operator index:  1 </span><br><span class="line"># x1:  100 </span><br><span class="line"># Error:  non-numeric argument to binary operator index:  2 </span><br><span class="line"># x1:  100 </span><br><span class="line"># Error:  non-numeric argument to binary operator index:  3 </span><br><span class="line"># x1:  100 </span><br><span class="line"># x1:  2 </span><br><span class="line"># x1:  3</span><br></pre></td></tr></table></figure></p>
+<p><code>error_ls</code>已记录对应每次循环的正误<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(error_ls)</span><br></pre></td></tr></table></figure></p>
+<p>注：call函数会优先执行expr的内容，如果执行失败，则执行call内部的语句，但若call内部出现其它赋值语句，则始终会被执行（会认为expr中没有相应返回），例如:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">error_ls2 &lt;- c()</span><br><span class="line">i &lt;- 0</span><br><span class="line">for(x in c(-2:2))&#123;</span><br><span class="line">    i &lt;- i+1</span><br><span class="line">    tryCatch(</span><br><span class="line">        expr=&#123;1+1&#125;,</span><br><span class="line">        call = (</span><br><span class="line">            # 对expr中不包含的变量赋值，每次都会执行</span><br><span class="line">            &#123;error_ls2[i] &lt;- &apos;error&apos;&#125;))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>即时没有任何异常，依然会执行<code>error_ls2[i] &lt;- &#39;error&#39;</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print(error_ls2)</span><br><span class="line"># [1] &quot;error&quot; &quot;error&quot; &quot;error&quot; &quot;error&quot; &quot;error&quot;</span><br></pre></td></tr></table></figure></p>
+<h4 id="包装成函数"><a href="#包装成函数" class="headerlink" title="包装成函数"></a>包装成函数</h4><p>包装成函数，不使用循环，转为在 data.table中快速运行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"># 写一个会遇到错误的函数</span><br><span class="line">process &lt;- function(x)&#123;</span><br><span class="line">    # 显然，x&lt;=0时，&apos;make error&apos;+1 字符串和数值不能相加，该函数会报错</span><br><span class="line">    ifelse(x&gt;0, x, &quot;make error&quot;) + 1</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># 嵌套异常处理后的函数</span><br><span class="line">process_tryCatch &lt;- function(x)&#123;</span><br><span class="line">    tryCatch(expr=process(x), </span><br><span class="line">             error=function(e) &#123;</span><br><span class="line">                 # 如果报error，则输出对应报错，并直接返回 -1001</span><br><span class="line">                 cat(&apos;Error: &apos;, e$message, &quot;. Input: &quot;, x, &quot;\n&quot;)</span><br><span class="line">                 # 此处不再需要call，可以直接在error里写return</span><br><span class="line">                 return(-1001)</span><br><span class="line">             &#125;</span><br><span class="line">    )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>构造个简单的data.table, 对<code>a</code>列的每个元素做process运算</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">library(data.table)</span><br><span class="line">df = data.table(a=-2:2)</span><br><span class="line">df[, new_a := process_tryCatch(a),a]</span><br><span class="line"># Error:  non-numeric argument to binary operator . Input:  -2 </span><br><span class="line"># Error:  non-numeric argument to binary operator . Input:  -1 </span><br><span class="line"># Error:  non-numeric argument to binary operator . Input:  0</span><br></pre></td></tr></table></figure>
+<p>对于<code>&gt;0</code>的会正常返回，其他返回<code>tryCatch</code>设置的 <code>-1001</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">df</span><br><span class="line">    # a new_a</span><br><span class="line"># 1: -2 -1001</span><br><span class="line"># 2: -1 -1001</span><br><span class="line"># 3:  0 -1001</span><br><span class="line"># 4:  1     2</span><br><span class="line"># 5:  2     3</span><br></pre></td></tr></table></figure></p>
+<h2 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h2><h3 id="try-except"><a href="#try-except" class="headerlink" title="try-except"></a>try-except</h3><p><code>try-except</code>是python中常用异常处理方式，如果<code>try</code>语句块中发生异常，则执行<code>except</code>语句块（捕获异常并处理）。示例如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">import sys </span><br><span class="line">try:</span><br><span class="line">    re = &quot;error&quot; + 2</span><br><span class="line">except Exception as e: </span><br><span class="line">    s = sys.exc_info()</span><br><span class="line">    print(&apos;Error: %s; line:[%s]&apos; % (str(e), s[2].tb_lineno))</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>sys.exc_info()</code> 记录错误出现的位置（问题回溯）</li>
+<li><code>Exception as e</code> 记录具体的报错信息。</li>
+</ul>
+<p>以上示例运行结果如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># Error: cannot concatenate &apos;str&apos; and &apos;int&apos; objects; line:[3]</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/01/evaluation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hetal">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="学习随记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/01/evaluation/" itemprop="url">模型常用评估指标详解</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-01T00:00:00+08:00">
+                2019-09-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/评估/" itemprop="url" rel="index">
+                    <span itemprop="name">评估</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/09/01/evaluation/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/09/01/evaluation/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/09/01/evaluation/" class="leancloud_visitors" data-flag-title="模型常用评估指标详解">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>模型评估通常作为建模的最后一步，用于评估模型效果，判别该模型是否达到预期。但实际模型评估指标需要在建模的第一步确定，即确定目标函数。凡事都得有个目标，才知道努力的（拟合）方向，否则枉然。<br>连续值或者分类型的预测最常用的说法就是<code>模型精度</code>，但实际<code>精度</code>一词有多重含义，例如连续性预测模型常用的是<code>MAPE/RMSE</code>，而分类常用<code>AUC/accuracy/recall/specify</code>等等。本文将介绍常用的评估指标，并对应下各指标的不同称呼。</p>
+<h2 id="0-1分类预测的评估"><a href="#0-1分类预测的评估" class="headerlink" title="0-1分类预测的评估"></a>0-1分类预测的评估</h2><p>一般的分类都是二元分类，而最常用的则是<code>ROC曲线</code>下方的面积<code>AUC</code>值了。首先需要知道混淆矩阵的构成，以及其衍生的一系列评估指标，取其不同阈值下的两个评估指标，即可构成ROC曲线，而曲线下方的面积，即为AUC值。</p>
+<h3 id="混淆矩阵"><a href="#混淆矩阵" class="headerlink" title="混淆矩阵"></a>混淆矩阵</h3><p>对于而分类问题，记1为正例，0为负例，预测和实际的值则会出现4中组合，例如，对某一样本，预测值为1（<code>Positive</code>），而实际值也为1，说明预测正确，即为 <code>True Positive</code>（真正例），反之如果实际值为0，则预测错误，即为 <code>False Positive</code>（假正例）。根据4中组合，得到混淆矩阵如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:right"></th>
+<th style="text-align:right">预测-1</th>
+<th style="text-align:right">预测-0</th>
+<th style="text-align:right"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right">实际-1</td>
+<td style="text-align:right">True Positive(TP)</td>
+<td style="text-align:right">False Negative(FN)</td>
+<td style="text-align:right">Actual Positive (P=TP+FN)</td>
+</tr>
+<tr>
+<td style="text-align:right">实际-0</td>
+<td style="text-align:right">False Positive(FP)</td>
+<td style="text-align:right">True Negative(TN)</td>
+<td style="text-align:right">Actual Negative (N=FP+TN)</td>
+</tr>
+<tr>
+<td style="text-align:right"></td>
+<td style="text-align:right">Predicted Positive (P’=TP+FP)</td>
+<td style="text-align:right">Predicted Negative (N’=FN+TN)</td>
+<td style="text-align:right">TP+FP+FN+TN</td>
+</tr>
+</tbody>
+</table>
+<p>衍生的各种评估指标如下：</p>
+<ul>
+<li>准确率(<code>accuracy</code>)<ul>
+<li>$\frac{T P+T N}{TP+FP+FN+TN}$</li>
+</ul>
+</li>
+<li>错误率<ul>
+<li>$\frac{FP+FN}{TP+FP+FN+TN}$</li>
+</ul>
+</li>
+<li>敏感度(<code>sensitivity</code>)、真正例率、召回率(<code>recall</code>)<ul>
+<li>$\frac{TP}{TP+FN}$</li>
+</ul>
+</li>
+<li>特效性(<code>specificity</code>)、真负例率<ul>
+<li>$\frac{TN}{FP+TN}$</li>
+</ul>
+</li>
+<li>精度(<code>precision</code>)<ul>
+<li>$\frac{TP}{TP+FP}$</li>
+</ul>
+</li>
+<li>$F_1$、F分数（精度和召回率的调和均值）<ul>
+<li>$\frac{2 \times \text {precision} \times \text {recall}}{\text {precision}+r e c a l l} = \mathrm{F} 1=\frac{2 \mathrm{TP}}{2 \mathrm{TP}+\mathrm{FP}+\mathrm{FN}}$</li>
+<li>实际来自于： $\frac{2}{\mathrm{F} 1}=\frac{1}{\mathrm{P}}+\frac{1}{\mathrm{R}}$</li>
+</ul>
+</li>
+</ul>
+<h3 id="ROC曲线"><a href="#ROC曲线" class="headerlink" title="ROC曲线"></a>ROC曲线</h3><p>分类模型的原始预测值是0~1之间的连续型数值，可理解为因变量取1的概率，一般取0.5作为阈值，即小于0.5记为预测的0，大于等于0.5记为预测的1；而实际上根据不同情况可以取不同的阈值。</p>
+<blockquote>
+<p>例如，银行预测可能发生贷款逾期的账目，由于整体逾期率非常低，例如样本中100个只有1个逾期，如果只看准确率，那么全预测0（即，不逾期）则可达到99%的准确率，显然不妥，因此此时会秉着宁可错杀一千不可放过一个的原则，会将阈值适当降低，例如降到0.1，若大于0.1则预测为1。（实际上此时主要的评估指标会选择recall）。</p>
+</blockquote>
+<p>用不同的阀值，统计出每组不同阀值下的精确率和召回率，</p>
+<ul>
+<li>横坐标：假正率（<code>FPR</code>,即 <code>1-specificity</code>，1-真负例率）<ul>
+<li>FPR = FP /（FP + TN）</li>
+</ul>
+</li>
+<li>纵坐标：真正例率（<code>TPR</code>, 即 <code>recall</code>）<ul>
+<li>TPR = TP /（TP + FN）</li>
+</ul>
+</li>
+</ul>
+<p>即可画出ROC曲线（受试者工作特征曲线，receiver operating characteristic curve），示例（图片来源于他处）如下<br> <img src="/images/evaluation_ROC.png" class="[class names]"></p>
+<p> ROC曲线优势就是，当正负样本的分布发生变化时，其形状能够基本保持不变，因此其面积<code>AUC</code>值，可以说是极度适用于不平衡样本（例如以上的银行逾期数据，正负比极度不均衡）的建模评估了。<code>AUC</code>越大，模型分类效果越好，一般来说，<code>AUC</code>低于0.7的模型基本上是个废柴了。（若在正负样本比1:1情况下全预测为0或者1，<code>AUC</code>即为0.5）</p>
+<h3 id="R语言实现"><a href="#R语言实现" class="headerlink" title="R语言实现"></a>R语言实现</h3><p>可使用<code>ROCR</code>包计算AUC值，混淆矩阵自己写即可，代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">library(ROCR)</span><br><span class="line">get_confusion_stat &lt;- function(pred,y_real,threshold=0.5)&#123;</span><br><span class="line">  # auc</span><br><span class="line">  tmp &lt;- prediction(as.vector(pred),y_real)</span><br><span class="line">  auc &lt;- unlist(slot(performance(tmp,&apos;auc&apos;),&apos;y.values&apos;))</span><br><span class="line">  # statistic</span><br><span class="line">  pred_new &lt;- as.integer(pred&gt;threshold) </span><br><span class="line">  tab &lt;- table(pred_new,y_real)</span><br><span class="line">  if(nrow(tab)==1)&#123;</span><br><span class="line">    print(&apos;preds all zero !&apos;)</span><br><span class="line">    return(0)</span><br><span class="line">  &#125;</span><br><span class="line">  TP &lt;- tab[2,2]</span><br><span class="line">  TN &lt;- tab[1,1]</span><br><span class="line">  FP &lt;- tab[2,1]</span><br><span class="line">  FN &lt;- tab[1,2]</span><br><span class="line">  accuracy &lt;- round((TP+TN)/(TP+FN+FP+TN),4)</span><br><span class="line">  recall_sensitivity &lt;- round(TP/(TP+FN),4)</span><br><span class="line">  precision &lt;- round(TP/(TP+FP),4)</span><br><span class="line">  specificity &lt;- round(TN/(TN+FP),4)</span><br><span class="line">  # 添加，预测的负例占比（业务解释：去除多少的样本，达到多少的recall）</span><br><span class="line">  neg_rate &lt;- round((TN+FN)/(TP+TN+FP+FN),4)</span><br><span class="line">  re &lt;- list(&apos;AUC&apos; = auc,</span><br><span class="line">             &apos;Confusion_Matrix&apos;=tab,</span><br><span class="line">             &apos;Statistics&apos;=data.frame(value=c(&apos;accuracy&apos;=accuracy,</span><br><span class="line">                                             &apos;recall_sensitivity&apos;=recall_sensitivity,</span><br><span class="line">                                             &apos;precision&apos;=precision,</span><br><span class="line">                                             &apos;specificity&apos;=specificity,</span><br><span class="line">                                             &apos;neg_rate&apos;=neg_rate)))</span><br><span class="line">  return(re)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p> 引用上篇<a href="https://hetal-cq.github.io/" target="_blank" rel="noopener">lasso-R示例</a>博文的评估结果示例如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"># $AUC</span><br><span class="line"># [1] 0.8406198</span><br><span class="line"></span><br><span class="line"># $Confusion_Matrix</span><br><span class="line">        # y_real</span><br><span class="line"># pred_new   0   1</span><br><span class="line">       # 0  20   8</span><br><span class="line">       # 1  32 131</span><br><span class="line"></span><br><span class="line"># $Statistics</span><br><span class="line">                    # value</span><br><span class="line"># accuracy           0.7906</span><br><span class="line"># recall_sensitivity 0.9424</span><br><span class="line"># precision          0.8037</span><br><span class="line"># specificity        0.3846</span><br><span class="line"># neg_rate           0.1466</span><br></pre></td></tr></table></figure></p>
+<h2 id="连续值预测的评估"><a href="#连续值预测的评估" class="headerlink" title="连续值预测的评估"></a>连续值预测的评估</h2><p>连续型变量的预测，通常使用MAPE和RMSE。对于回归问题的模型还经常使用拟合优度 $R^2$ 作为评估指标。</p>
+<h3 id="MAPE"><a href="#MAPE" class="headerlink" title="MAPE"></a>MAPE</h3><p>MAPE（mean absolute percentage error）为平均百分比误差，预测连续型数据的准确率一般指<code>1-MAPE</code>，例如预测未来10个月的GDP数据，准确率达到98%，即代表该模型的预测 MAPE 为2%。<br>$$MAPE=\sum_{t=1}^{n}\left|\frac{\text {observed}_{t}-\text {predicted}_t}{\text {observed}_t}\right| \times \frac{100}{n}$$</p>
+<h3 id="MSE-RMSE"><a href="#MSE-RMSE" class="headerlink" title="MSE/RMSE"></a>MSE/RMSE</h3><p>RMSE(root mean square error)为均方根误差，相应的MSE(mean square error)即为误差的平方和，两者含义一致，指标越小则模型效果越好。<br>$$RMSE=\sqrt{\frac{1}{N} \sum_{t=1}^{N}\left(\text {observed}_t-\text {predicted}_t\right)^{2}}$$</p>
+<h3 id="拟合优度"><a href="#拟合优度" class="headerlink" title="拟合优度"></a>拟合优度</h3><p>拟合优度（Goodness of Fit）是指回归直线对观测值的拟合程度。</p>
+<h4 id="R²-可决系数"><a href="#R²-可决系数" class="headerlink" title="R²/可决系数"></a>R²/可决系数</h4><p>度量拟合优度的统计量是可决系数（亦称确定系数）R²。R²的值越接近1，说明回归直线对观测值的拟合程度越好；反之，R²的值越小，说明回归直线对观测值的拟合程度越差。R²等于回归平方和（ explained sum of squares）在总平方和（ total sum of squares）中所占的比率，即回归方程所能解释的因变量变异性的百分比。</p>
+<blockquote>
+<p>注意，回归问题才能用R²衡量</p>
+</blockquote>
+<p>$$ R^{2} = \frac{S S_{\mathrm{reg}}}{S S_{\mathrm{tss}}}=1-\frac{S S_{\mathrm{rss}}}{S S_{\mathrm{tss}}} = 1- \frac{\sum_{i}\left(y_{i}-f_{i}\right)^{2}}{\sum_{i}\left(y_{i}-\bar{y}\right)^{2}} $$</p>
+<p>由以上公式实际上可知，在带有截距项的线性最小二乘多元回归中（注意这个<em>前提条件</em>），$R^2$就是预测值和实际值相关系数的平方，即（注意，一定是线性回归模型才行）：</p>
+<p>$$ R^{2}=cor(y_{real},y_{fit})^{2} $$</p>
+<h4 id="调整的R²"><a href="#调整的R²" class="headerlink" title="调整的R²"></a>调整的R²</h4><p>在模型中增加多个变量（即使是无实际意义的变量）也能小幅度提高R平方的值，因此需要考虑模型的变量数作为相应惩罚，于是得到调整的R²如下：</p>
+<p>$$ R_{adjusted}^{2} =1-\frac{S S_{\mathrm{rss}}/(n-p-1))}{S S_{\mathrm{tss}}/(n-1)}$$</p>
+<h3 id="R语言实现-1"><a href="#R语言实现-1" class="headerlink" title="R语言实现"></a>R语言实现</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"># MAPE</span><br><span class="line">get_mape &lt;- function(fit,y)&#123;</span><br><span class="line">  # 实际值为0的，直接不纳入计算</span><br><span class="line">  re &lt;- round(mean(ifelse(y==0,NA,abs(y-fit)/y),na.rm=T)*100,1)</span><br><span class="line">  return(re)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># R方，可决系数，coefficient of determination</span><br><span class="line">get_rsq &lt;- function(preds,actual,p=1)&#123;</span><br><span class="line">  rss &lt;- sum((actual - preds) ^ 2)</span><br><span class="line">  tss &lt;- sum((actual - mean(actual)) ^ 2)</span><br><span class="line">  rsq &lt;- round(1 - rss/tss,3)</span><br><span class="line">  n &lt;- length(preds)</span><br><span class="line">  # 调整的R方 1-(1-rsq)*(n-1)/(n-1-1) 也一样</span><br><span class="line">  rsq_ad &lt;- round(1 - (rss/(n-p-1))/(tss/(n-1)),3)</span><br><span class="line">  return(list(&apos;rsq&apos;=rsq,</span><br><span class="line">              &apos;rsq_ad&apos;=rsq_ad))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/14/lasso/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hetal">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="学习随记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/06/14/lasso/" itemprop="url">lasso-R示例</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-14T00:00:00+08:00">
+                2019-06-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/模型/" itemprop="url" rel="index">
+                    <span itemprop="name">模型</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/模型/回归/" itemprop="url" rel="index">
+                    <span itemprop="name">回归</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/06/14/lasso/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/06/14/lasso/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/06/14/lasso/" class="leancloud_visitors" data-flag-title="lasso-R示例">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Lasso简介"><a href="#Lasso简介" class="headerlink" title="Lasso简介"></a>Lasso简介</h2><p>LASSO(Least Absolute Shrinkage and Selection Operator)是线性回归的一种缩减方式，通过引入$L_1$惩罚项，实现变量选择和参数估计。</p>
+<p>$$\sum_{i=1}^{N}\left(y_{i}-\beta_{0}+\sum_{j=1}^{p} x_{i j} \beta_{j}\right)^{2}+\lambda \sum_{j=1}^{p}\left|\beta_{j}\right|$$</p>
+<h2 id="R示例"><a href="#R示例" class="headerlink" title="R示例"></a>R示例</h2><p>简单的建模过程主要包括：</p>
+<ul>
+<li>数据切分、清洗</li>
+<li>建模，使用R的<code>glmnet</code>包即可实现lasso</li>
+<li>评估，分类常使用混淆矩阵、ROC（使用<code>ROCR</code>包），数值型预测常使用MAPE</li>
+</ul>
+<p>以下用简单的数据集实现Lasso-LR：<br>这是由真实的医学数据抽样得到的一份demo数据，x1-x19分别代表不同的基因或者染色体表现数据，Y代表病人是否患有某种疾病。（由于数据敏感，因此都用$X_i$代替。）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rm(list=ls())</span><br><span class="line">library(data.table)</span><br><span class="line">dat_use &lt;- fread(&apos;demo_data.csv&apos;,header = T)</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">head(dat_use)</span><br><span class="line">   # y Genotype Age Gender   X1   X2   X3   X4   X5   X6   X7   X8   X9  X10  X11  X12  X13  X14   X15 X16 X17  X18  X19</span><br><span class="line"># 1: 1        0  19      0 2.09 1.85 1.93 5.54 5.08 6.20 8.82 8.19 8.09 4.77 4.53 4.48 3.50 3.23  3.22   0   0 0.46 0.64</span><br><span class="line"># 2: 0        2  20      0 2.54 2.07 1.61 6.19 4.21 0.00 7.53 2.25 1.97 4.41 3.98 3.46 2.49 1.61  1.83   0   1 1.98 5.27</span><br><span class="line"># 3: 1        1  32      1 2.17 2.22 1.95 6.67 5.39 0.00 7.89 5.89 3.00 4.49 2.88 0.03 2.87 2.45  1.23   0   1 1.28 2.00</span><br><span class="line"># 4: 0        1  20      0 2.01 1.68 2.15 6.20 0.00 4.05 7.44 4.60 2.10 4.11 4.28 4.19 2.91 2.08 -0.96   1   0 6.20 2.83</span><br><span class="line"># 5: 1        1  41      1 2.15 1.67 1.56 7.10 0.00 0.00 8.55 3.68 3.40 4.48 3.12 3.26 2.92 1.29  1.36   1   1 7.10 4.87</span><br><span class="line"># 6: 1        1  47      1 1.93 1.62 2.63 6.43 5.21 5.76 8.13 7.95 6.96 4.36 4.47 4.27 2.96 2.52  2.38   0   0 1.22 0.17</span><br></pre></td></tr></table></figure>
+<h3 id="数据预处理"><a href="#数据预处理" class="headerlink" title="数据预处理"></a>数据预处理</h3><p>首先将类别型变量转为哑变量，借助<code>caret</code>的<code>dummyVars</code>函数可以轻松获取哑变量<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">library(caret)</span><br><span class="line"># Genotype 为数据中多类型的类别型变量，其他例如Age和Gender为二值0-1变量，无需再转换</span><br><span class="line"># 首先将类别型变量转为facor类型</span><br><span class="line">names_factor &lt;- c(&apos;Genotype&apos;)</span><br><span class="line">dat_use[, (names_factor) := lapply(.SD, as.factor), .SDcols = names_factor]</span><br><span class="line"># 抽取出类别型变量对应的哑变量矩阵</span><br><span class="line">dummyModel &lt;- dummyVars(~ Genotype,</span><br><span class="line">                        data = dat_use,</span><br><span class="line">                        sep = &quot;.&quot;)</span><br><span class="line">dat_dummy &lt;- predict(dummyModel, dat_use)</span><br><span class="line"># 合并哑变量矩阵，并删除对应原始数据列</span><br><span class="line">dat_model &lt;- cbind(dat_use[,-c(names_factor),with=F],dat_dummy)</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">head(dat_dummy)</span><br><span class="line">  # Genotype.0 Genotype.1 Genotype.2</span><br><span class="line"># 1          1          0          0</span><br><span class="line"># 2          0          0          1</span><br><span class="line"># 3          0          1          0</span><br><span class="line"># 4          0          1          0</span><br><span class="line"># 5          0          1          0</span><br><span class="line"># 6          0          1          0</span><br></pre></td></tr></table></figure>
+<p>切分数据集<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"># 设置随机数种子，便于结果重现</span><br><span class="line">set.seed(1)</span><br><span class="line"># split data</span><br><span class="line">N &lt;- nrow(dat_model)</span><br><span class="line">test_index &lt;- sample(N,0.3*N)</span><br><span class="line">train_index &lt;- c(1:N)[-test_index]</span><br><span class="line">test_data &lt;- dat_model[test_index,]</span><br><span class="line">train_data &lt;- dat_model[train_index,]</span><br><span class="line"># 指定因变量列，</span><br><span class="line">y_name &lt;- &apos;y&apos;</span><br><span class="line">thedat &lt;- na.omit(train_data)</span><br><span class="line">y &lt;-  c(thedat[,y_name,with=F])[[1]]</span><br><span class="line">x &lt;- thedat[,c(y_name):=NULL]</span><br><span class="line">x &lt;- as.matrix(x)</span><br><span class="line"># normalize（此步骤可省略，因为glmnet默认会标准化后建模，再返回变换后的真实系数）</span><br><span class="line"># pp = preProcess(x,method = c(&quot;center&quot;, &quot;scale&quot;))</span><br><span class="line"># x &lt;- predict(pp, x)</span><br></pre></td></tr></table></figure></p>
+<h3 id="建模"><a href="#建模" class="headerlink" title="建模"></a>建模</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">library(glmnet)</span><br><span class="line"># fit the model</span><br><span class="line">fit &lt;- glmnet(x, y, alpha=1,family = &apos;binomial&apos;)</span><br><span class="line"># 使用area under the ROC curve, CV 选择压缩参数lambda</span><br><span class="line"># 再设置一次set.seed</span><br><span class="line">set.seed(1)</span><br><span class="line">fit_cv &lt;- cv.glmnet(x, y, alpha=1, family = &apos;binomial&apos;, type.measure=&apos;auc&apos;)</span><br><span class="line">plot(fit_cv)</span><br></pre></td></tr></table></figure>
+<img src="/images/lasso_demo_fit_cv.png" class="[class names]" width="600" height="400">
+<p>可以看到压缩到5个变量时AUC最大，对应 $log(lambda)=-3.67$，抽取出对应5个变量的模型系数如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># log(fit_cv$lambda.min)=-3.67</span><br><span class="line">get_coe &lt;- function(the_fit,the_lamb)&#123;</span><br><span class="line">  Coefficients &lt;- coef(the_fit, s = the_lamb)</span><br><span class="line">  Active.Index &lt;- which(Coefficients != 0)</span><br><span class="line">  Active.Coefficients &lt;- Coefficients[Active.Index]</span><br><span class="line">  re &lt;- data.frame(rownames(Coefficients)[Active.Index],Active.Coefficients)</span><br><span class="line">  re &lt;- data.table(&apos;var_names&apos;=rownames(Coefficients)[Active.Index],</span><br><span class="line">                   &apos;coef&apos;=Active.Coefficients)</span><br><span class="line">  # 计算系数的指数次方，表示x每变动一个单位对y的影响倍数</span><br><span class="line">  re$expcoef &lt;- exp(re$coef)</span><br><span class="line">  return(re[order(expcoef)])</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">get_coe(fit_cv,fit_cv$lambda.min)</span><br><span class="line">     # var_names        coef   expcoef</span><br><span class="line"># 1: (Intercept) -1.12352837 0.3251306</span><br><span class="line"># 2:         X16 -0.20444072 0.8151031</span><br><span class="line"># 3:  Genotype.0 -0.15247051 0.8585842</span><br><span class="line"># 4:         Age  0.02762516 1.0280103</span><br><span class="line"># 5:         X14  0.15049722 1.1624121</span><br><span class="line"># 6:         X15  0.77624720 2.1733010</span><br></pre></td></tr></table></figure>
+<p>但医学上经常需要看每个变量在不同惩罚参数lambda下的压缩程度，从而结合实际背景进一步判别有效的影响因素，因此可借助以下图像进行分析，可以看到x15对y的影响最大（此去省略1000字）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">get_plot&lt;- function(the_fit,the_fit_cv,the_lamb,toplot = seq(1,50,2))&#123;</span><br><span class="line">    Coefficients &lt;- coef(the_fit, s = the_lamb)</span><br><span class="line">    Active.Index &lt;- which(Coefficients != 0)</span><br><span class="line">    coeall &lt;- coef(the_fit, s = the_fit_cv$lambda[toplot])</span><br><span class="line">    coe &lt;- coeall[Active.Index[-1],]</span><br><span class="line">    ylims=c(-max(abs(coe)),max(abs(coe)))</span><br><span class="line">    sp &lt;- spline(log(the_fit_cv$lambda[toplot]),coe[1,],n=100)</span><br><span class="line">    plot(sp,type=&apos;l&apos;,col =1,lty=1, </span><br><span class="line">         ylim = ylims,ylab = &apos;Coefficient&apos;, xlab = &apos;log(lambda)&apos;) </span><br><span class="line">    abline(h=0) </span><br><span class="line">    for(i in c(2:nrow(coe)))&#123;</span><br><span class="line">        lines(spline(log(the_fit_cv$lambda[toplot]),coe[i,],n=1000),</span><br><span class="line">              col =i,lty=i)</span><br><span class="line">    &#125;</span><br><span class="line">    legend(&quot;bottomright&quot;,legend=rownames(coe),col=c(1:nrow(coe)),</span><br><span class="line">           lty=c(1:nrow(coe)),</span><br><span class="line">           cex=0.5)</span><br><span class="line">&#125;</span><br><span class="line"># 传入最优lambda-1，从而保留更多变量</span><br><span class="line">get_plot(fit,fit_cv,exp(log(fit_cv$lambda.min)-1))</span><br></pre></td></tr></table></figure></p>
+<img src="/images/lasso_demo_coef_change.png" class="[class names]" width="600" height="500">
+<h3 id="评估"><a href="#评估" class="headerlink" title="评估"></a>评估</h3><p>对于分类模型，最常用的评估指标莫过于AUC值了，使用<code>ROCR</code>包可获取AUC值，为了多维度的评估，将混淆矩阵，和各种recall/accuracy指标加入其中。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">library(ROCR)</span><br><span class="line">get_confusion_stat &lt;- function(pred,y_real,threshold=0.5)&#123;</span><br><span class="line">  # auc</span><br><span class="line">  tmp &lt;- prediction(as.vector(pred),y_real)</span><br><span class="line">  auc &lt;- unlist(slot(performance(tmp,&apos;auc&apos;),&apos;y.values&apos;))</span><br><span class="line">  # statistic</span><br><span class="line">  pred_new &lt;- as.integer(pred&gt;threshold) </span><br><span class="line">  tab &lt;- table(pred_new,y_real)</span><br><span class="line">  if(nrow(tab)==1)&#123;</span><br><span class="line">    print(&apos;preds all zero !&apos;)</span><br><span class="line">    return(0)</span><br><span class="line">  &#125;</span><br><span class="line">  TP &lt;- tab[2,2]</span><br><span class="line">  TN &lt;- tab[1,1]</span><br><span class="line">  FP &lt;- tab[2,1]</span><br><span class="line">  FN &lt;- tab[1,2]</span><br><span class="line">  accuracy &lt;- round((TP+TN)/(TP+FN+FP+TN),4)</span><br><span class="line">  recall_sensitivity &lt;- round(TP/(TP+FN),4)</span><br><span class="line">  precision &lt;- round(TP/(TP+FP),4)</span><br><span class="line">  specificity &lt;- round(TN/(TN+FP),4)</span><br><span class="line">  # 添加，预测的负例占比（业务解释：去除多少的样本，达到多少的recall）</span><br><span class="line">  neg_rate &lt;- round((TN+FN)/(TP+TN+FP+FN),4)</span><br><span class="line">  re &lt;- list(&apos;AUC&apos; = auc,</span><br><span class="line">             &apos;Confusion_Matrix&apos;=tab,</span><br><span class="line">             &apos;Statistics&apos;=data.frame(value=c(&apos;accuracy&apos;=accuracy,</span><br><span class="line">                                             &apos;recall_sensitivity&apos;=recall_sensitivity,</span><br><span class="line">                                             &apos;precision&apos;=precision,</span><br><span class="line">                                             &apos;specificity&apos;=specificity,</span><br><span class="line">                                             &apos;neg_rate&apos;=neg_rate)))</span><br><span class="line">  return(re)</span><br><span class="line">&#125;</span><br><span class="line"># 结合数据预处理部分，得到模型在测试集上的表现</span><br><span class="line">get_eval &lt;- function(data,theta=0.5,the_fit=fit,the_lamb=fit_cv$lambda.min)&#123;</span><br><span class="line">  thedat_test &lt;- na.omit(data)</span><br><span class="line">  y &lt;-  c(thedat_test[,y_name,with=F])[[1]]</span><br><span class="line">  x &lt;- thedat_test[,-c(y_name),with=F]</span><br><span class="line">  x &lt;- as.matrix(x)</span><br><span class="line">  pred &lt;- predict(the_fit,newx=x,s=the_lamb,type = &apos;response&apos;)</span><br><span class="line">  print(get_confusion_stat(pred,y, theta))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"># get_eval(train_data) 篇幅原因不再展示训练集的拟合效果</span><br><span class="line">get_eval(test_data)</span><br><span class="line"># $AUC</span><br><span class="line"># [1] 0.8406198</span><br><span class="line"></span><br><span class="line"># $Confusion_Matrix</span><br><span class="line">        # y_real</span><br><span class="line"># pred_new   0   1</span><br><span class="line">       # 0  20   8</span><br><span class="line">       # 1  32 131</span><br><span class="line"></span><br><span class="line"># $Statistics</span><br><span class="line">                    # value</span><br><span class="line"># accuracy           0.7906</span><br><span class="line"># recall_sensitivity 0.9424</span><br><span class="line"># precision          0.8037</span><br><span class="line"># specificity        0.3846</span><br><span class="line"># neg_rate           0.1466</span><br></pre></td></tr></table></figure>
+<p>可以看到模型在测试集上的表选比较不错，AUC值达到0.84,不过在specificity上表现欠佳，说明在负样本上的召回较差（52个负样本，只预测对了20个）。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/23/data-table/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hetal">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="学习随记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/05/23/data-table/" itemprop="url">data.table小技巧</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-23T00:00:00+08:00">
+                2019-05-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术语言/" itemprop="url" rel="index">
+                    <span itemprop="name">技术语言</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术语言/小技巧系列/" itemprop="url" rel="index">
+                    <span itemprop="name">小技巧系列</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/05/23/data-table/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/05/23/data-table/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/05/23/data-table/" class="leancloud_visitors" data-flag-title="data.table小技巧">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>data.table 作为R中数据处理的利器，本文记录常用的代码（持续更新）。</p>
+<ul>
+<li>操控数据<ul>
+<li>dt[i,j,k]</li>
+<li>i：where 选择</li>
+<li>j：条件，更新，计算；直接对j处的向量进行（自定义）函数操作得到新列</li>
+<li>k：group by，聚合</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>基础操作</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 根据(x,y)排序</span></span><br><span class="line">dt[i,j,k][order(x,y)]</span><br><span class="line"><span class="comment"># 按照s_id和date_time排序的数据</span></span><br><span class="line">d1 &lt;- dt[,.(t_id,date_time,s_id)][order(s_id,date_time)]</span><br><span class="line"><span class="comment"># 取列和取行方式和data.frame基本通用，但如果直接传入 index向量/列名向量，需要加 with=FALSE</span></span><br><span class="line">idx = <span class="number">1</span>:<span class="number">5</span> </span><br><span class="line">data[,idx,with=<span class="literal">FALSE</span>]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>加列</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 多加一列，get_day是自定义对单个字符串操作的函数，所以还需要group by 这个向量，就可以对每个字符串操作了</span></span><br><span class="line">dat[,date_day3:=get_day(as.character(date_time)),date_time]</span><br><span class="line"><span class="comment"># 生成新的汇总数据</span></span><br><span class="line">dat0108[m_type==<span class="number">0</span>,.(t1=.N),mon]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>加行</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">re &lt;- rbind(re,cbind(<span class="string">'mon'</span>=<span class="string">'all'</span>,t(colSums(re[,<span class="number">2</span>:<span class="number">4</span>]))))</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>设置列名：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setnames(DT, c(<span class="string">"b"</span>,<span class="string">"b"</span>) )</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>一次加多列，赋值：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dat[,`:=`(r_buy_call=a/b,</span><br><span class="line">          x=<span class="number">1</span>)]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>一次删除多列，根据列名：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">x &lt;- x[,colnames(x)[grep(<span class="string">'^y_'</span>,colnames(x))]:=<span class="literal">NULL</span>]</span><br><span class="line">re5 &lt;- re5[,paste0(<span class="string">'ft_cnt_'</span>,c(<span class="number">1</span>:<span class="number">5</span>)):=<span class="literal">NULL</span>]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>去重</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 直接unique会默认选择之前的key，id进行去重，所以不行</span></span><br><span class="line">dim(unique(re1))</span><br><span class="line"><span class="comment"># 需要加入变量的unique</span></span><br><span class="line">dim(unique(re1,by=c(<span class="string">'id'</span>,<span class="string">'call_time'</span>,<span class="string">'call_bridge_duration'</span>)))</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>一次计算多列</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 写一个返回list的函数，即可返回多列</span></span><br><span class="line">myfun &lt;- <span class="keyword">function</span> (a) &#123;</span><br><span class="line">re &lt;-  strsplit(a,<span class="string">','</span>)[[<span class="number">1</span>]]</span><br><span class="line"><span class="keyword">return</span>(list(re[<span class="number">1</span>],re[<span class="number">2</span>],re[<span class="number">3</span>],re[<span class="number">4</span>]))</span><br><span class="line">&#125;</span><br><span class="line">tmp1 &lt;- dat[,c(<span class="string">'num'</span>,<span class="string">'A'</span>,<span class="string">'B'</span>,<span class="string">'C'</span>):=myfun(V1),V1]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>一次改多列类型</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">thecol = c(<span class="string">'last6_ftclass'</span>,<span class="string">'last6_paycnt'</span>)</span><br><span class="line">ftpay[, (thecol) := lapply(.SD, as.numeric), .SDcols = thecol]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>分组计算 （使用<code>.SD</code>）</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 按列计算</span></span><br><span class="line">data[,ldply(.SD,<span class="keyword">function</span>…)] </span><br><span class="line"><span class="comment"># 按行计算</span></span><br><span class="line">data[,apply(.SD,<span class="number">1</span>,<span class="keyword">function</span>…)] </span><br><span class="line">data[,sum(unlist(.SD)),by=<span class="number">1</span>:nrow(data)]</span><br><span class="line"><span class="comment"># 取每组的第一行</span></span><br><span class="line">tmp[order(subject_no, -time)][, head(.SD, <span class="number">1</span>), by = list(user_id, subject_no)]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>根据列名group by（传入的可以直接是字符串向量）</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tmp &lt;- re[,.N,by=c(<span class="string">'x1'</span>,<span class="string">'x2'</span>,<span class="string">'x3'</span>)]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>返回值说明</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">options(datatable.verbose = <span class="literal">TRUE</span>)</span><br><span class="line"><span class="comment"># 不显示赋值的返回结果</span></span><br><span class="line">DT[ , <span class="number">5</span>] <span class="comment"># data.table</span></span><br><span class="line">DT[<span class="number">2</span>, <span class="number">5</span>] <span class="comment"># data.table</span></span><br><span class="line">DT[,<span class="string">"region"</span>] <span class="comment"># data.table</span></span><br><span class="line">DT[[<span class="string">"region"</span>]] <span class="comment"># vector</span></span><br><span class="line">DT$region <span class="comment"># vector</span></span><br><span class="line">DT[,columnRed:columnViolet]</span><br><span class="line"><span class="comment"># column name range to get data.table</span></span><br><span class="line">DT[,c(<span class="string">"columnRed"</span>,<span class="string">"columnOrange"</span>,<span class="string">"columnYellow"</span>)]</span><br><span class="line"><span class="comment"># column name to get data.table</span></span><br><span class="line">DT[,.(columnRed,columnOrange,columnYellow)]</span><br><span class="line"><span class="comment"># column name to get data.table</span></span><br><span class="line">DT[, &#123; x&lt;-colA+<span class="number">10</span>; x*x/<span class="number">2</span> &#125;]</span><br><span class="line"><span class="comment"># 对X进行计算</span></span><br><span class="line">DT[ , mycol, with = <span class="literal">FALSE</span>]</span><br><span class="line"><span class="comment"># mycol = "x"</span></span><br><span class="line">NEWDT = DT[<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>变换</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dcast(tmp,user_id~status,value.var =<span class="string">'N'</span>)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/22/IRT-CAT/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hetal">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="学习随记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/05/22/IRT-CAT/" itemprop="url">自适应测评</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-22T00:00:00+08:00">
+                2019-05-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/测评/" itemprop="url" rel="index">
+                    <span itemprop="name">测评</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/05/22/IRT-CAT/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/05/22/IRT-CAT/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/05/22/IRT-CAT/" class="leancloud_visitors" data-flag-title="自适应测评">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h2><p>基于IRT理论，实现对题库参数的估计，根据新用户做题情况给出用户能力值估计及其标准差，再根据当前能力值给出最能够区分用户等级的下一道题，当能力值稳定在一定范围内即结束测试。实现根据学生能力动态出题的自适应测试。</p>
+<h2 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h2><h3 id="IRT-3PL"><a href="#IRT-3PL" class="headerlink" title="IRT-3PL"></a>IRT-3PL</h3><p>IRT理论即项目反应理论(Item Response Theory, IRT)，又称题目反应理论、潜在特质理论（Item Response Theory）是一系列心理统计学模型的总称。在实际应用中，人们出于数值处理的简便，倾向于使用3参数Logistic模型（简称3PL模型，3-parameter Logistic model），3PL模型中，第$j$人做对第$i$题的概率如下：</p>
+<p>$$ P_i(\theta _j)=c_i+\frac{(1-c_i)}{1+e^{-\alpha_i(\theta_j-\beta_i))}} $$</p>
+<ul>
+<li>${\theta_j}$，第$j$人的能力值</li>
+<li>${\alpha_i}$，第$i$题的区分度(item discrimination)</li>
+<li>${\beta_j}$，第$i$题的难度(item difficulty)</li>
+<li>$c_i$，第$i$题的猜对概率(guessing parameter)</li>
+</ul>
+<h3 id="MLE"><a href="#MLE" class="headerlink" title="MLE"></a>MLE</h3><p>极大似然估计方法（Maximum Likelihood Estimate，MLE）也称为最大概似估计或最大似然估计，是建立在极大似然原理的基础上的一个统计方法。求极大似然函数估计值的一般步骤：1） 写出似然函数；2）对似然函数取对数；3） 求导数 4） 解似然方程得到参数估计</p>
+<ul>
+<li><p>本项目中，$u_{ij}$表示用户$j$是否做第$i$题的结果（0/1），则对应对数似然函数为：<br>$$L=log(P(U|\theta)) \<br>=log[\coprod_{j=1}^{J}\coprod_{i=1}^{N} P_{ij}^{u_{ij}}Q_{ij}^{1-u_{ij}} ] \<br>=\sum_{j=1}^{J}\sum_{i=1}^{N}[u_{ij}logP_{ij}+(1-u_{ij})logQ_{ij}] $$</p>
+</li>
+<li><p>结合3PL模型，可得用户$j$是否做第$i$题的对数似然值如下：<br>$$ ell_{ij}=u_{ij}log[c_i+\frac{(1-c_i)}{1+e^{-z_i}}] + (1-u_{ij})log[(1-c_i)\frac{e^{-z_i}}{1+e^{-z_i}}]$$</p>
+<ul>
+<li>项目代码<code>utl.clib.log_likelihood_2PL</code><br>其中，$z_i=\alpha_i(\theta_j-\beta_i)$</li>
+</ul>
+</li>
+</ul>
+<h3 id="EM"><a href="#EM" class="headerlink" title="EM"></a>EM</h3><p>EM算法指的是最大期望算法（Expectation Maximization Algorithm，又译期望最大化算法），是一种迭代算法，用于含有隐变量（latent variable）的概率参数模型的最大似然估计或极大后验概率估计。</p>
+<ul>
+<li>输入：观测变量数据$Y$，隐变量数据$Z$，联合分布$P(Y,Z|\theta)$，条件分布$P(Z|Y,\theta)$；</li>
+<li>输出：模型参数$\theta$<ul>
+<li>(1) 选择参数的初值$\theta^{(0)}$，开始迭代；<ul>
+<li>参数的初值可以任意选择，但EM算法对初值是比较敏感的</li>
+</ul>
+</li>
+<li>(2) E步：记$\theta^{(i)}$为第$i$次迭代参数${\theta}$的估计值，在第$i+1$次迭代的E步，计算<br>$$ Q(\theta,\theta^{(i)})=E_Z[logP(Y,Z|\theta)|Y,\theta^{(i)}]=\sum_{Z}logP(Y,Z|\theta)P(Z|Y,\theta^{(i)}) $$<br>这里，$P(Z|Y,\theta^{(i)}$是在给定观测数据$Y$和当前参数估计$\theta^{(i)}$下隐变量数据$Z$的条件概率分布<ul>
+<li>$Z$是为观测数据，$Y$是观测数据，$Q(\theta,\theta^{(i)})$中第一个变元表示 要极大化的参数，第2个变元表示参数当前的估计值。每次迭代式实际是求使得$Q$函数取最大值的$\theta$</li>
+</ul>
+</li>
+<li>(3) M步：求是$Q(\theta,\theta^{(i)})$极大化的$\theta$，确定第$i+1$次迭代的参数的估计值$\theta^{(i+1)}$<br>$$\theta^{(i+1)}=argmax_{\theta}Q(\theta,\theta^{(i)})$$</li>
+<li>(4) 重复第(2)步和第(3)步，直到收敛<ul>
+<li>给出迭代的停止条件，一般是对较小的正数$\varepsilon _1,\varepsilon _2<br>$，若满足<br>$$\left | \theta^{(i+1)}- \theta^{(i)}\right | &lt; \varepsilon _1<br>或 \left | Q(\theta^{(i+1)},\theta^{(i)})-Q(\theta^{(i)},\theta^{(i)}) \right | &lt; \varepsilon _2$$<br>则停止迭代</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="参数估计"><a href="#参数估计" class="headerlink" title="参数估计"></a>参数估计</h2><p>采用EM算法实现MLE，得到对$\Delta ,\pi$的估计</p>
+<ul>
+<li>$\Delta$，题参数<ul>
+<li>第$j$题的参数记为$\delta _j$，则 $\Delta = (\delta _1,…,\delta _N)$</li>
+</ul>
+</li>
+<li>$\pi$，能力分布<ul>
+<li>假设所有用户一共可分为$K$个等级水平，其中第$k$级水平记为$q_k$，对应出现概率为$\pi_k$，则$\pi=(\pi_1,…,\pi_K)$<br>此外，建模过程中需要用到的其他元素定义如下：</li>
+</ul>
+</li>
+<li>$n_k^{(s)}$，所用用户中$\theta$（能力）在$k$等级($q_k$)的人数<ul>
+<li>代码中为<code>self.item_expected_right_bytheta+self.item_expected_wrong_bytheta</code></li>
+<li>记$n$为$n_k$的集合向量</li>
+</ul>
+</li>
+<li>$r_{jk}^{(s)}$，能力$\theta$为$q_k$的并且做对第$j$题的人数<ul>
+<li>代码中为<code>self.item_expected_wrong_bytheta</code></li>
+<li>记$R$为$r_{jk}$的集合矩阵<br>于是，完全数据下的对数似然函数为(具体推导过程见参考文献)：<br>$$log[L(R^{(s)},n^{(s)})|\Delta,\pi]=\sum_{j=1}^{J}l(\delta_j)+l(\pi)$$<br>其中<br>$$l(\delta_j)=\sum_{k=1}^{K}r_{jk}^{(s)}log[P(q_k|\delta_j)]+(n_{k}^{(s)}-r_{jk}^{(s)})log[1-P(q_k|\delta_j)] $$<br>$$l(\pi)=\sum_{k=1}^{K}n_{k}^{(s)}log[\pi_k]$$<br>因此，分开对$l(\delta_j)$和$l(\pi)$求导，从而能使整体对数似然函数达到最大，得到相应的参数估计。<br>于是应用于本项目的EM算法实现如下：</li>
+</ul>
+</li>
+</ul>
+<h3 id="E-step"><a href="#E-step" class="headerlink" title="E step"></a>E step</h3><p>在第$(s-1)$次迭代已计算出$\pi^{(s)}$与$\delta^{(s)}$，则此次迭代的E step带入计算</p>
+<ul>
+<li><p>(1)<br>$$n_k^{(s)}=\sum_{i=1}^{N}f(q_k|y_i,\Delta^{(s)},\pi^{(s)})$$</p>
+</li>
+<li><p>(2)<br>$$r_{jk}^{(s)}=\sum_{i=1}^{N}u_{ij}f(q_k|y_i,\Delta^{(s)},\pi^{(s)})$$<br>即，在$n_k^{(s)}$的分子内乘以做第$j$题的结果(0/1)$u_{ij}$</p>
+</li>
+</ul>
+<h3 id="M-step"><a href="#M-step" class="headerlink" title="M step"></a>M step</h3><p>根据$l(\delta_j)$和$l(\pi)$分开估计$\pi^{(s+1)}$与$\delta^{(s+1)}$</p>
+<ul>
+<li>(1) $$\pi_k^{(s+1)}=\frac{n_k^{(s)}}{N}$$</li>
+<li>(2) 求解 $\frac{\partial l(\delta_j) }{\partial\delta_{tj}} = 0 $，得到$\delta_j^{(s)}$的估计值<ul>
+<li>代码中主要采用L-BFGS-G（拟牛顿法）求解</li>
+<li><code>from scipy.optimize import minimize , method=&#39;L-BFGS-B&#39;</code></li>
+</ul>
+</li>
+</ul>
+<p>重复以上E和M step直到达到收敛条件，即可得到题库的参数以及用户能力的估计值。</p>
+<h2 id="CAT"><a href="#CAT" class="headerlink" title="CAT"></a>CAT</h2><p>计算机自适应考试（Computerized Adaptive Testing，简称CAT）是建构在20世纪50年代发展起来的现代测验理论——项目反应理论（简称IRT）基础上的一种考试方式。<br>它能根据考生答题的情况不断计算受试者的能力值及信息量，并实时地根据这些参数调整出题策略，最终给受试者一个恰当的评价。</p>
+<ul>
+<li>step1: 首先从题库中随机调取学生初始等级下的一道题</li>
+<li>step2: 根据学答题情况，以及相应题目的3个参数，估计出当前的能力值$\theta^{(s)}$<ul>
+<li>项目代码<code>solver.theta_estimator</code>，目前只实现了MLE的$\theta$估计</li>
+</ul>
+</li>
+<li>step3: 根据当前能力值，计算可选题库中对于该能力值$\theta^{(s)}$下的信息量<br>$$I_i(\theta)=\frac{[{P}’_i(\theta)]^2}{P_i(\theta)Q_i(\theta)} $$<br>选择信息量最大的一道题给予学生，继续作答，同时可计算下一步的$\theta^{(s+1)}$估计量的标准差<br>$$ SE = \frac{1}{\sqrt{\sum I_i(\theta)}} $$<ul>
+<li>项目代码<code>utl.clib.info_item</code></li>
+</ul>
+</li>
+<li>step4: 重复step2-step3，直到标准差在给定的阈值内，或者满足其他停止条件（例如最多只做30题）则结束测试，并给出最后一次估计的能力值$\theta$</li>
+</ul>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<li><a href="http://www.b-a-h.com/papers/note9801.html" target="_blank" rel="noopener">IRT Parameter Estimation using the EM Algorithm</a></li>
+<li><a href="https://github.com/17zuoye/pyirt" target="_blank" rel="noopener">https://github.com/17zuoye/pyirt</a></li>
+<li><a href="https://github.com/xluo11/xxIRT" target="_blank" rel="noopener">https://github.com/xluo11/xxIRT</a></li>
+<li><a href="https://cran.r-project.org/web/packages/catR/index.html" target="_blank" rel="noopener">https://cran.r-project.org/web/packages/catR/index.html</a></li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/22/glicko/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hetal">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="学习随记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/05/22/glicko/" itemprop="url">基于竞技比赛的评分排序系统-Glicko</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-22T00:00:00+08:00">
+                2019-05-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/模型/" itemprop="url" rel="index">
+                    <span itemprop="name">模型</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/模型/排序/" itemprop="url" rel="index">
+                    <span itemprop="name">排序</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/05/22/glicko/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/05/22/glicko/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/05/22/glicko/" class="leancloud_visitors" data-flag-title="基于竞技比赛的评分排序系统-Glicko">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="背景介绍"><a href="#背景介绍" class="headerlink" title="背景介绍"></a>背景介绍</h2><p>参考各类竞技比赛的评分排序系统，我们在具体公司业务上也可以进行相应评分排序，从而得到最能体现用户偏好的商品评分系统。</p>
+<ul>
+<li>目标<ul>
+<li>从用户角度出发，给出平台商品的真实排序</li>
+</ul>
+</li>
+<li>数据<ul>
+<li>需要数据类型：A和B比赛的胜负数据，即（A,B,1）代表A击败B</li>
+<li>例如在有A和B同时曝光可选时，用户选择了A，则代表A击败B一次</li>
+</ul>
+</li>
+<li>方法<ul>
+<li>Elo rating system</li>
+<li>Glicko rating system</li>
+</ul>
+</li>
+</ul>
+<h2 id="Elo-rating-system"><a href="#Elo-rating-system" class="headerlink" title="Elo rating system"></a>Elo rating system</h2><p>Elo等级分制度（Elo rating system）是指由匈牙利裔美国物理学家 Arpad Elo创建的一个衡量各类对弈活动水平的评价方法，是当今对弈水平评估的公认的权威方法。被广泛用于国际象棋、围棋、足球、篮球等运动。游戏界比较著名的应用有： WOW（魔兽世界）、DOTA、LOL。</p>
+<h3 id="计分方法"><a href="#计分方法" class="headerlink" title="计分方法"></a>计分方法</h3><p>系统中有A和B两位选手，$R_A$ 和$R_B$分别代表A与B的当前等级分，之后A和B的进行一次竞技，结果记为$S_A$（如果A胜则$S_A=1$，负为0，平为0.5）。该次竞技后A的等级分更新如下：</p>
+<p>$$ R_{A}^{‘} = R_A + K(S_A - E_A) $$</p>
+<p>其中：</p>
+<ul>
+<li>$E_A$，代表A相对于B的获胜概率（胜率期望值）<ul>
+<li>$E_A=\frac{1}{1+10^{(R_B-R_A)/400}}$</li>
+</ul>
+</li>
+<li>$K$ 为一个常数，代表理论上最多可以赢一个玩家的得分和失分<ul>
+<li>K/2就是相同rating的玩家其中一方胜利后所得的分数</li>
+<li>在大部分的游戏规则中，K=32； 国际象棋大师赛中，K=16</li>
+<li>竞技的选手水平越高K取值越小（避免少数比赛改变顶尖玩家排名）</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<ul>
+<li>Elo模型原先采用正态分布。但是实践显明棋手的表现并非呈正态分布，所以现在的等级分计分系统通常使用的是逻辑分布。</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>公式中分母的400来由： 根据公式可以得出，当K值相同的情况下，越高的分母，越低的积分变化。总体来说400是一个平衡的、让多数玩家积分保持标准正态分布的值</li>
+</ul>
+</blockquote>
+<h3 id="实例说明"><a href="#实例说明" class="headerlink" title="实例说明"></a>实例说明</h3><p>若当前A玩家积分为1500，B玩家积分为1600 </p>
+<ul>
+<li>预估A玩家的胜负值： Ea = 1/(1+10^[（1600-1500）/400]）≈ 0.36 </li>
+<li>预估B玩家的胜负值： Eb = 1-Ea = 1-0.36 = 0.64 </li>
+<li>假设A玩家获胜，实际胜负值为Sa = 1 <ul>
+<li>A玩家最终得分为 ：R’a = 1500 + 32*(1-0.36) = 1500+20.5 = 1520 </li>
+<li>A玩家赢20分，B玩家输20分。 </li>
+</ul>
+</li>
+<li>假设B玩家获胜，实际胜负值为Sa = 1 <ul>
+<li>B队最终得分为 R’b = 1600 + 32*(1-0.64) = 1600 + 11.52 = 1612</li>
+<li>B玩家赢12分，A玩家输12分。</li>
+</ul>
+</li>
+</ul>
+<h2 id="Glicko-rating-system"><a href="#Glicko-rating-system" class="headerlink" title="Glicko rating system"></a>Glicko rating system</h2><p><a href="http://www.glicko.net/glicko.html" target="_blank" rel="noopener">Glicko</a>是由Mark Glickman提出的方法，是对Elo评分系统的改进，加入了评分偏差项RD（ratings deviation）。</p>
+<ul>
+<li>考虑未进行对战的时间长度，时间越长则RD越大</li>
+<li>举例解释：一个很久未参与竞技比赛的选手A，其能力值很可能不再等于系统记录的$R_A$，如果A与能力值相同的B（$R_A=R_B$）比赛，而选手B是近期一直活跃在系统的玩家，则明显能力值更加可信。<ul>
+<li>若A击败B，则A加分应该更多，B减分应该更少</li>
+<li>对于A：其能力不确定，击败了系统中相同等级的对手，说明很可能A的能力早已高于系统的记录，因此需要‘快速加分’</li>
+<li>对于B：被一个不太确定能力的人击败，说明A很可能本来就比B强，因此被击败不应该扣除太多积分，因此需要‘减少降分’</li>
+</ul>
+</li>
+</ul>
+<h3 id="计分方法-1"><a href="#计分方法-1" class="headerlink" title="计分方法"></a>计分方法</h3><p>对于选手A，1）记其能力评分（rating）为$r$；2）偏差(可理解为：标准差)为$RD$，为了方便计算，记方差为$v$ （$v=RD^2$）；3）第$j$次的比赛结果为$S_j$。则其进入系统后，随着比赛的增加，其得分相应计算如下：</p>
+<blockquote>
+<p>注意：比赛以周期为单位更新选手评分，此处假设选手A在一个周期t+1内，参与了m次比赛</p>
+</blockquote>
+<ul>
+<li>Step1：初始化评分<ul>
+<li>a) 无历史评分则，评分$r=1500$，方差$v=350^2$ （初始分可根据实际情况设置为其他数值）</li>
+<li>b) 有历史评分则，评分 $r=r_{old}$，方差$v=min(v_{old}+c^2t,350^2) $<ul>
+<li>$c$，衡量时间因素的常量系数</li>
+<li>$t$，本次比赛和上次比赛的时间间隔（几个时间周期）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Step2：更新评分$r_{new}$与方差$v_{new}$<ul>
+<li>方差:<br>$$ v_{new}=(\frac{1}{v}+d)^{-1} $$</li>
+<li>评分:<br>$$ r_{new}=r+qv_{new}{\sum_{j=1}^{m}k_j(s_j-e_j)} $$</li>
+<li>其中：<ul>
+<li>对比Elo的常量$K$,Glicko的系数是方差的函数：$k_j=\frac{1}{\sqrt{1+3q^2v_j/\pi^2}}$ （实际上要和Elo的$K$对等，还需要再乘$qv^*$）</li>
+<li>对比Elo的$E_A$,Glicko的获胜概率期望值加入$k_j$乘数，从而也和方差$v$有关：$e_j=\frac{1}{1+10^{-k_j(r-r_j)/400}}$</li>
+<li>$q=ln(10)/400$</li>
+<li>$d=q^2\sum_{j=1}^{m}k_j^2e_j(1-e_j)$</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="预测方法"><a href="#预测方法" class="headerlink" title="预测方法"></a>预测方法</h3><p>现有选手A，其评分和方差为$(r_a,v_a)$，若A与$(r_b,v_b)$的选手B进行比赛，则可预测A的胜率为：<br>$$ e_{ab}=\frac{1}{1+10^{-k_{ab}(r_a-r_b)/400}} $$<br>其中，<br>$$ k_{ab}=\frac{1}{\sqrt{1+3q^2(v_a+v_b)/\pi^2}} $$</p>
+<h3 id="tips"><a href="#tips" class="headerlink" title="tips"></a>tips</h3><ul>
+<li>关于$RD$：随着选手的活跃，参赛次数的增加，偏差会越来越小，$RD$太小会导致选手即使提升了能力赢得比赛，也只能加极少的分数，一般应用中会设置$RD$的下限，例如 $ RD=max(30,RD)$</li>
+<li>置信区间：根据 quasi-Bayesian derivation of the Glicko system，一般可以认为95%的置信区间如下：<br>$$(r-1.96RD,r+1.96RD)$$</li>
+</ul>
+<h2 id="工程实现"><a href="#工程实现" class="headerlink" title="工程实现"></a>工程实现</h2><p>使用 Alec Stephenson 写的R包<a href="https://cran.r-project.org/web/packages/PlayerRatings/" target="_blank" rel="noopener">PlayerRatings</a></p>
+<h3 id="共有参数"><a href="#共有参数" class="headerlink" title="共有参数"></a>共有参数</h3><ul>
+<li>data，数据，由四列组成：<ul>
+<li>时间：第几个比赛周</li>
+<li>主场方方选手名称，比如说中国队和西班牙队这次在中国比赛，那么中国为主场方</li>
+<li>非主场方选手名称</li>
+<li>得分，胜=1，平=0.5，负=0</li>
+</ul>
+</li>
+<li>status，当前计分系统的状态数据框<ul>
+<li>主要包括：选手名称（Player）、评分（Rating）、比赛总场次（Games）、胜场次（Win）、平场次（Draw）、负场次（Loss）、该队结束比赛后还剩的比赛周次（Lag）</li>
+<li>有‘RD’参数的系统，例如Glicko，还包括Deviation列</li>
+</ul>
+</li>
+<li>gamma，对主场方的偏置<ul>
+<li>主要用于预测，例如在A的地区和B比赛，那么同等水平下会A的胜率应该更高</li>
+<li>建模函数中gamma默认为0，而预测函数(<code>predict()</code>)中gamma默认为30</li>
+</ul>
+</li>
+</ul>
+<h3 id="建模函数"><a href="#建模函数" class="headerlink" title="建模函数"></a>建模函数</h3><ul>
+<li><p><code>elo()</code>，实现Elo评分系统，主要参数：</p>
+<ul>
+<li>data，status=NULL，gamma=0</li>
+<li>init，初始分，默认<code>init = 2200</code></li>
+<li>kfac，K值,<ul>
+<li>给定常数，默认<code>kfac=27</code></li>
+<li>也可以设置不同规则下的K值，例如场次在30以上取26，否则取32（<code>kfac=kgames</code>）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code>glicko()</code>，实现Glicko评分系统</p>
+<ul>
+<li>data，status=NULL，gamma=0</li>
+<li>init，初始分和标准差，默认<code>init = c(2200,300)</code></li>
+<li>cval，衡量时间因素的常量系数，默认<code>cval = 15</code>，（区别于Elo的重要参数）</li>
+</ul>
+</li>
+<li><p><code>steph()</code>，实现作者基于 Glicko 改进的 Stephenson 评分系统</p>
+<ul>
+<li>status = NULL, gamma = 0, </li>
+<li>init，初始分和标准差，默认<code>init = c(2200,300)</code></li>
+<li>cval = 10, hval = 10, bval = 0, lambda = 2<ul>
+<li>区别于其他系统的重要参数</li>
+<li>详细修改点和公式见<a href="https://en.wikipedia.org/wiki/Glicko_rating_system" target="_blank" rel="noopener">Glicko rating system</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+  </section>
+
+  
+
+
+          </div>
+          
+
+
+          
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">hetal</p>
+              <p class="site-description motion-element" itemprop="description">记录数据科学中常用的模型+代码+技巧</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">hetal</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://hetal.disqus.com/count.js" async></script>
+    
+
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("Eolx2VB8KRu0fqbO9NmFl65Y-gzGzoHsz", "4et9WAc7sjSrpR1bbUfcdHxU");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>

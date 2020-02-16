@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="模型评估,混淆矩阵,AUC,MAPE,R²,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="简介模型评估通常作为建模的最后一步，用于评估模型效果，判别该模型是否达到预期。但实际模型评估指标需要在建模的第一步确定，即确定目标函数。凡事都得有个目标，才知道努力的（拟合）方向，否则枉然。连续值或者分类型的预测最常用的说法就是模型精度，但实际精度一词有多重含义，例如连续性预测模型常用的是MAPE/RMSE，而分类常用AUC/accuracy/recall/specify等等。本文将介绍常用的评估">
+<meta name="keywords" content="模型评估,混淆矩阵,AUC,MAPE,R²">
+<meta property="og:type" content="article">
+<meta property="og:title" content="模型常用评估指标详解">
+<meta property="og:url" content="http://yoursite.com/2019/09/01/evaluation/index.html">
+<meta property="og:site_name" content="学习随记">
+<meta property="og:description" content="简介模型评估通常作为建模的最后一步，用于评估模型效果，判别该模型是否达到预期。但实际模型评估指标需要在建模的第一步确定，即确定目标函数。凡事都得有个目标，才知道努力的（拟合）方向，否则枉然。连续值或者分类型的预测最常用的说法就是模型精度，但实际精度一词有多重含义，例如连续性预测模型常用的是MAPE/RMSE，而分类常用AUC/accuracy/recall/specify等等。本文将介绍常用的评估">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/evaluation_ROC.png">
+<meta property="og:updated_time" content="2020-02-16T07:53:00.739Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="模型常用评估指标详解">
+<meta name="twitter:description" content="简介模型评估通常作为建模的最后一步，用于评估模型效果，判别该模型是否达到预期。但实际模型评估指标需要在建模的第一步确定，即确定目标函数。凡事都得有个目标，才知道努力的（拟合）方向，否则枉然。连续值或者分类型的预测最常用的说法就是模型精度，但实际精度一词有多重含义，例如连续性预测模型常用的是MAPE/RMSE，而分类常用AUC/accuracy/recall/specify等等。本文将介绍常用的评估">
+<meta name="twitter:image" content="http://yoursite.com/images/evaluation_ROC.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/09/01/evaluation/">
+
+
+
+
+
+  <title>模型常用评估指标详解 | 学习随记</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">学习随记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">hetal</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/01/evaluation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hetal">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="学习随记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">模型常用评估指标详解</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-01T00:00:00+08:00">
+                2019-09-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/评估/" itemprop="url" rel="index">
+                    <span itemprop="name">评估</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/09/01/evaluation/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/09/01/evaluation/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/09/01/evaluation/" class="leancloud_visitors" data-flag-title="模型常用评估指标详解">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>模型评估通常作为建模的最后一步，用于评估模型效果，判别该模型是否达到预期。但实际模型评估指标需要在建模的第一步确定，即确定目标函数。凡事都得有个目标，才知道努力的（拟合）方向，否则枉然。<br>连续值或者分类型的预测最常用的说法就是<code>模型精度</code>，但实际<code>精度</code>一词有多重含义，例如连续性预测模型常用的是<code>MAPE/RMSE</code>，而分类常用<code>AUC/accuracy/recall/specify</code>等等。本文将介绍常用的评估指标，并对应下各指标的不同称呼。</p>
+<h2 id="0-1分类预测的评估"><a href="#0-1分类预测的评估" class="headerlink" title="0-1分类预测的评估"></a>0-1分类预测的评估</h2><p>一般的分类都是二元分类，而最常用的则是<code>ROC曲线</code>下方的面积<code>AUC</code>值了。首先需要知道混淆矩阵的构成，以及其衍生的一系列评估指标，取其不同阈值下的两个评估指标，即可构成ROC曲线，而曲线下方的面积，即为AUC值。</p>
+<h3 id="混淆矩阵"><a href="#混淆矩阵" class="headerlink" title="混淆矩阵"></a>混淆矩阵</h3><p>对于而分类问题，记1为正例，0为负例，预测和实际的值则会出现4中组合，例如，对某一样本，预测值为1（<code>Positive</code>），而实际值也为1，说明预测正确，即为 <code>True Positive</code>（真正例），反之如果实际值为0，则预测错误，即为 <code>False Positive</code>（假正例）。根据4中组合，得到混淆矩阵如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:right"></th>
+<th style="text-align:right">预测-1</th>
+<th style="text-align:right">预测-0</th>
+<th style="text-align:right"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right">实际-1</td>
+<td style="text-align:right">True Positive(TP)</td>
+<td style="text-align:right">False Negative(FN)</td>
+<td style="text-align:right">Actual Positive (P=TP+FN)</td>
+</tr>
+<tr>
+<td style="text-align:right">实际-0</td>
+<td style="text-align:right">False Positive(FP)</td>
+<td style="text-align:right">True Negative(TN)</td>
+<td style="text-align:right">Actual Negative (N=FP+TN)</td>
+</tr>
+<tr>
+<td style="text-align:right"></td>
+<td style="text-align:right">Predicted Positive (P’=TP+FP)</td>
+<td style="text-align:right">Predicted Negative (N’=FN+TN)</td>
+<td style="text-align:right">TP+FP+FN+TN</td>
+</tr>
+</tbody>
+</table>
+<p>衍生的各种评估指标如下：</p>
+<ul>
+<li>准确率(<code>accuracy</code>)<ul>
+<li>$\frac{T P+T N}{TP+FP+FN+TN}$</li>
+</ul>
+</li>
+<li>错误率<ul>
+<li>$\frac{FP+FN}{TP+FP+FN+TN}$</li>
+</ul>
+</li>
+<li>敏感度(<code>sensitivity</code>)、真正例率、召回率(<code>recall</code>)<ul>
+<li>$\frac{TP}{TP+FN}$</li>
+</ul>
+</li>
+<li>特效性(<code>specificity</code>)、真负例率<ul>
+<li>$\frac{TN}{FP+TN}$</li>
+</ul>
+</li>
+<li>精度(<code>precision</code>)<ul>
+<li>$\frac{TP}{TP+FP}$</li>
+</ul>
+</li>
+<li>$F_1$、F分数（精度和召回率的调和均值）<ul>
+<li>$\frac{2 \times \text {precision} \times \text {recall}}{\text {precision}+r e c a l l} = \mathrm{F} 1=\frac{2 \mathrm{TP}}{2 \mathrm{TP}+\mathrm{FP}+\mathrm{FN}}$</li>
+<li>实际来自于： $\frac{2}{\mathrm{F} 1}=\frac{1}{\mathrm{P}}+\frac{1}{\mathrm{R}}$</li>
+</ul>
+</li>
+</ul>
+<h3 id="ROC曲线"><a href="#ROC曲线" class="headerlink" title="ROC曲线"></a>ROC曲线</h3><p>分类模型的原始预测值是0~1之间的连续型数值，可理解为因变量取1的概率，一般取0.5作为阈值，即小于0.5记为预测的0，大于等于0.5记为预测的1；而实际上根据不同情况可以取不同的阈值。</p>
+<blockquote>
+<p>例如，银行预测可能发生贷款逾期的账目，由于整体逾期率非常低，例如样本中100个只有1个逾期，如果只看准确率，那么全预测0（即，不逾期）则可达到99%的准确率，显然不妥，因此此时会秉着宁可错杀一千不可放过一个的原则，会将阈值适当降低，例如降到0.1，若大于0.1则预测为1。（实际上此时主要的评估指标会选择recall）。</p>
+</blockquote>
+<p>用不同的阀值，统计出每组不同阀值下的精确率和召回率，</p>
+<ul>
+<li>横坐标：假正率（<code>FPR</code>,即 <code>1-specificity</code>，1-真负例率）<ul>
+<li>FPR = FP /（FP + TN）</li>
+</ul>
+</li>
+<li>纵坐标：真正例率（<code>TPR</code>, 即 <code>recall</code>）<ul>
+<li>TPR = TP /（TP + FN）</li>
+</ul>
+</li>
+</ul>
+<p>即可画出ROC曲线（受试者工作特征曲线，receiver operating characteristic curve），示例（图片来源于他处）如下<br> <img src="/images/evaluation_ROC.png" class="[class names]"></p>
+<p> ROC曲线优势就是，当正负样本的分布发生变化时，其形状能够基本保持不变，因此其面积<code>AUC</code>值，可以说是极度适用于不平衡样本（例如以上的银行逾期数据，正负比极度不均衡）的建模评估了。<code>AUC</code>越大，模型分类效果越好，一般来说，<code>AUC</code>低于0.7的模型基本上是个废柴了。（若在正负样本比1:1情况下全预测为0或者1，<code>AUC</code>即为0.5）</p>
+<h3 id="R语言实现"><a href="#R语言实现" class="headerlink" title="R语言实现"></a>R语言实现</h3><p>可使用<code>ROCR</code>包计算AUC值，混淆矩阵自己写即可，代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">library(ROCR)</span><br><span class="line">get_confusion_stat &lt;- function(pred,y_real,threshold=0.5)&#123;</span><br><span class="line">  # auc</span><br><span class="line">  tmp &lt;- prediction(as.vector(pred),y_real)</span><br><span class="line">  auc &lt;- unlist(slot(performance(tmp,&apos;auc&apos;),&apos;y.values&apos;))</span><br><span class="line">  # statistic</span><br><span class="line">  pred_new &lt;- as.integer(pred&gt;threshold) </span><br><span class="line">  tab &lt;- table(pred_new,y_real)</span><br><span class="line">  if(nrow(tab)==1)&#123;</span><br><span class="line">    print(&apos;preds all zero !&apos;)</span><br><span class="line">    return(0)</span><br><span class="line">  &#125;</span><br><span class="line">  TP &lt;- tab[2,2]</span><br><span class="line">  TN &lt;- tab[1,1]</span><br><span class="line">  FP &lt;- tab[2,1]</span><br><span class="line">  FN &lt;- tab[1,2]</span><br><span class="line">  accuracy &lt;- round((TP+TN)/(TP+FN+FP+TN),4)</span><br><span class="line">  recall_sensitivity &lt;- round(TP/(TP+FN),4)</span><br><span class="line">  precision &lt;- round(TP/(TP+FP),4)</span><br><span class="line">  specificity &lt;- round(TN/(TN+FP),4)</span><br><span class="line">  # 添加，预测的负例占比（业务解释：去除多少的样本，达到多少的recall）</span><br><span class="line">  neg_rate &lt;- round((TN+FN)/(TP+TN+FP+FN),4)</span><br><span class="line">  re &lt;- list(&apos;AUC&apos; = auc,</span><br><span class="line">             &apos;Confusion_Matrix&apos;=tab,</span><br><span class="line">             &apos;Statistics&apos;=data.frame(value=c(&apos;accuracy&apos;=accuracy,</span><br><span class="line">                                             &apos;recall_sensitivity&apos;=recall_sensitivity,</span><br><span class="line">                                             &apos;precision&apos;=precision,</span><br><span class="line">                                             &apos;specificity&apos;=specificity,</span><br><span class="line">                                             &apos;neg_rate&apos;=neg_rate)))</span><br><span class="line">  return(re)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p> 引用上篇<a href="https://hetal-cq.github.io/" target="_blank" rel="noopener">lasso-R示例</a>博文的评估结果示例如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"># $AUC</span><br><span class="line"># [1] 0.8406198</span><br><span class="line"></span><br><span class="line"># $Confusion_Matrix</span><br><span class="line">        # y_real</span><br><span class="line"># pred_new   0   1</span><br><span class="line">       # 0  20   8</span><br><span class="line">       # 1  32 131</span><br><span class="line"></span><br><span class="line"># $Statistics</span><br><span class="line">                    # value</span><br><span class="line"># accuracy           0.7906</span><br><span class="line"># recall_sensitivity 0.9424</span><br><span class="line"># precision          0.8037</span><br><span class="line"># specificity        0.3846</span><br><span class="line"># neg_rate           0.1466</span><br></pre></td></tr></table></figure></p>
+<h2 id="连续值预测的评估"><a href="#连续值预测的评估" class="headerlink" title="连续值预测的评估"></a>连续值预测的评估</h2><p>连续型变量的预测，通常使用MAPE和RMSE。对于回归问题的模型还经常使用拟合优度 $R^2$ 作为评估指标。</p>
+<h3 id="MAPE"><a href="#MAPE" class="headerlink" title="MAPE"></a>MAPE</h3><p>MAPE（mean absolute percentage error）为平均百分比误差，预测连续型数据的准确率一般指<code>1-MAPE</code>，例如预测未来10个月的GDP数据，准确率达到98%，即代表该模型的预测 MAPE 为2%。<br>$$MAPE=\sum_{t=1}^{n}\left|\frac{\text {observed}_{t}-\text {predicted}_t}{\text {observed}_t}\right| \times \frac{100}{n}$$</p>
+<h3 id="MSE-RMSE"><a href="#MSE-RMSE" class="headerlink" title="MSE/RMSE"></a>MSE/RMSE</h3><p>RMSE(root mean square error)为均方根误差，相应的MSE(mean square error)即为误差的平方和，两者含义一致，指标越小则模型效果越好。<br>$$RMSE=\sqrt{\frac{1}{N} \sum_{t=1}^{N}\left(\text {observed}_t-\text {predicted}_t\right)^{2}}$$</p>
+<h3 id="拟合优度"><a href="#拟合优度" class="headerlink" title="拟合优度"></a>拟合优度</h3><p>拟合优度（Goodness of Fit）是指回归直线对观测值的拟合程度。</p>
+<h4 id="R²-可决系数"><a href="#R²-可决系数" class="headerlink" title="R²/可决系数"></a>R²/可决系数</h4><p>度量拟合优度的统计量是可决系数（亦称确定系数）R²。R²的值越接近1，说明回归直线对观测值的拟合程度越好；反之，R²的值越小，说明回归直线对观测值的拟合程度越差。R²等于回归平方和（ explained sum of squares）在总平方和（ total sum of squares）中所占的比率，即回归方程所能解释的因变量变异性的百分比。</p>
+<blockquote>
+<p>注意，回归问题才能用R²衡量</p>
+</blockquote>
+<p>$$ R^{2} = \frac{S S_{\mathrm{reg}}}{S S_{\mathrm{tss}}}=1-\frac{S S_{\mathrm{rss}}}{S S_{\mathrm{tss}}} = 1- \frac{\sum_{i}\left(y_{i}-f_{i}\right)^{2}}{\sum_{i}\left(y_{i}-\bar{y}\right)^{2}} $$</p>
+<p>由以上公式实际上可知，在带有截距项的线性最小二乘多元回归中（注意这个<em>前提条件</em>），$R^2$就是预测值和实际值相关系数的平方，即（注意，一定是线性回归模型才行）：</p>
+<p>$$ R^{2}=cor(y_{real},y_{fit})^{2} $$</p>
+<h4 id="调整的R²"><a href="#调整的R²" class="headerlink" title="调整的R²"></a>调整的R²</h4><p>在模型中增加多个变量（即使是无实际意义的变量）也能小幅度提高R平方的值，因此需要考虑模型的变量数作为相应惩罚，于是得到调整的R²如下：</p>
+<p>$$ R_{adjusted}^{2} =1-\frac{S S_{\mathrm{rss}}/(n-p-1))}{S S_{\mathrm{tss}}/(n-1)}$$</p>
+<h3 id="R语言实现-1"><a href="#R语言实现-1" class="headerlink" title="R语言实现"></a>R语言实现</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"># MAPE</span><br><span class="line">get_mape &lt;- function(fit,y)&#123;</span><br><span class="line">  # 实际值为0的，直接不纳入计算</span><br><span class="line">  re &lt;- round(mean(ifelse(y==0,NA,abs(y-fit)/y),na.rm=T)*100,1)</span><br><span class="line">  return(re)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># R方，可决系数，coefficient of determination</span><br><span class="line">get_rsq &lt;- function(preds,actual,p=1)&#123;</span><br><span class="line">  rss &lt;- sum((actual - preds) ^ 2)</span><br><span class="line">  tss &lt;- sum((actual - mean(actual)) ^ 2)</span><br><span class="line">  rsq &lt;- round(1 - rss/tss,3)</span><br><span class="line">  n &lt;- length(preds)</span><br><span class="line">  # 调整的R方 1-(1-rsq)*(n-1)/(n-1-1) 也一样</span><br><span class="line">  rsq_ad &lt;- round(1 - (rss/(n-p-1))/(tss/(n-1)),3)</span><br><span class="line">  return(list(&apos;rsq&apos;=rsq,</span><br><span class="line">              &apos;rsq_ad&apos;=rsq_ad))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/模型评估/" rel="tag"># 模型评估</a>
+          
+            <a href="/tags/混淆矩阵/" rel="tag"># 混淆矩阵</a>
+          
+            <a href="/tags/AUC/" rel="tag"># AUC</a>
+          
+            <a href="/tags/MAPE/" rel="tag"># MAPE</a>
+          
+            <a href="/tags/R²/" rel="tag"># R²</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/14/lasso/" rel="next" title="lasso-R示例">
+                <i class="fa fa-chevron-left"></i> lasso-R示例
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/08/exception-handling/" rel="prev" title="异常处理-R与Python">
+                异常处理-R与Python <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">hetal</p>
+              <p class="site-description motion-element" itemprop="description">记录数据科学中常用的模型+代码+技巧</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0-1分类预测的评估"><span class="nav-number">2.</span> <span class="nav-text">0-1分类预测的评估</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#混淆矩阵"><span class="nav-number">2.1.</span> <span class="nav-text">混淆矩阵</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ROC曲线"><span class="nav-number">2.2.</span> <span class="nav-text">ROC曲线</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#R语言实现"><span class="nav-number">2.3.</span> <span class="nav-text">R语言实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#连续值预测的评估"><span class="nav-number">3.</span> <span class="nav-text">连续值预测的评估</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MAPE"><span class="nav-number">3.1.</span> <span class="nav-text">MAPE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MSE-RMSE"><span class="nav-number">3.2.</span> <span class="nav-text">MSE/RMSE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#拟合优度"><span class="nav-number">3.3.</span> <span class="nav-text">拟合优度</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#R²-可决系数"><span class="nav-number">3.3.1.</span> <span class="nav-text">R²/可决系数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#调整的R²"><span class="nav-number">3.3.2.</span> <span class="nav-text">调整的R²</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#R语言实现-1"><span class="nav-number">3.4.</span> <span class="nav-text">R语言实现</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">hetal</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://hetal.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2019/09/01/evaluation/';
+          this.page.identifier = '2019/09/01/evaluation/';
+          this.page.title = '模型常用评估指标详解';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://hetal.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("Eolx2VB8KRu0fqbO9NmFl65Y-gzGzoHsz", "4et9WAc7sjSrpR1bbUfcdHxU");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>

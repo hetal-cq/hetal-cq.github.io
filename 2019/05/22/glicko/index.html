@@ -1,0 +1,1427 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="R,ranking,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="背景介绍参考各类竞技比赛的评分排序系统，我们在具体公司业务上也可以进行相应评分排序，从而得到最能体现用户偏好的商品评分系统。  目标 从用户角度出发，给出平台商品的真实排序   数据 需要数据类型：A和B比赛的胜负数据，即（A,B,1）代表A击败B 例如在有A和B同时曝光可选时，用户选择了A，则代表A击败B一次   方法 Elo rating system Glicko rating system">
+<meta name="keywords" content="R,ranking">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于竞技比赛的评分排序系统-Glicko">
+<meta property="og:url" content="http://yoursite.com/2019/05/22/glicko/index.html">
+<meta property="og:site_name" content="学习随记">
+<meta property="og:description" content="背景介绍参考各类竞技比赛的评分排序系统，我们在具体公司业务上也可以进行相应评分排序，从而得到最能体现用户偏好的商品评分系统。  目标 从用户角度出发，给出平台商品的真实排序   数据 需要数据类型：A和B比赛的胜负数据，即（A,B,1）代表A击败B 例如在有A和B同时曝光可选时，用户选择了A，则代表A击败B一次   方法 Elo rating system Glicko rating system">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-02-16T07:53:00.739Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基于竞技比赛的评分排序系统-Glicko">
+<meta name="twitter:description" content="背景介绍参考各类竞技比赛的评分排序系统，我们在具体公司业务上也可以进行相应评分排序，从而得到最能体现用户偏好的商品评分系统。  目标 从用户角度出发，给出平台商品的真实排序   数据 需要数据类型：A和B比赛的胜负数据，即（A,B,1）代表A击败B 例如在有A和B同时曝光可选时，用户选择了A，则代表A击败B一次   方法 Elo rating system Glicko rating system">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/05/22/glicko/">
+
+
+
+
+
+  <title>基于竞技比赛的评分排序系统-Glicko | 学习随记</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">学习随记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">hetal</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/22/glicko/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hetal">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="学习随记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">基于竞技比赛的评分排序系统-Glicko</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-22T00:00:00+08:00">
+                2019-05-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/模型/" itemprop="url" rel="index">
+                    <span itemprop="name">模型</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/模型/排序/" itemprop="url" rel="index">
+                    <span itemprop="name">排序</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/05/22/glicko/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/05/22/glicko/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/05/22/glicko/" class="leancloud_visitors" data-flag-title="基于竞技比赛的评分排序系统-Glicko">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="背景介绍"><a href="#背景介绍" class="headerlink" title="背景介绍"></a>背景介绍</h2><p>参考各类竞技比赛的评分排序系统，我们在具体公司业务上也可以进行相应评分排序，从而得到最能体现用户偏好的商品评分系统。</p>
+<ul>
+<li>目标<ul>
+<li>从用户角度出发，给出平台商品的真实排序</li>
+</ul>
+</li>
+<li>数据<ul>
+<li>需要数据类型：A和B比赛的胜负数据，即（A,B,1）代表A击败B</li>
+<li>例如在有A和B同时曝光可选时，用户选择了A，则代表A击败B一次</li>
+</ul>
+</li>
+<li>方法<ul>
+<li>Elo rating system</li>
+<li>Glicko rating system</li>
+</ul>
+</li>
+</ul>
+<h2 id="Elo-rating-system"><a href="#Elo-rating-system" class="headerlink" title="Elo rating system"></a>Elo rating system</h2><p>Elo等级分制度（Elo rating system）是指由匈牙利裔美国物理学家 Arpad Elo创建的一个衡量各类对弈活动水平的评价方法，是当今对弈水平评估的公认的权威方法。被广泛用于国际象棋、围棋、足球、篮球等运动。游戏界比较著名的应用有： WOW（魔兽世界）、DOTA、LOL。</p>
+<h3 id="计分方法"><a href="#计分方法" class="headerlink" title="计分方法"></a>计分方法</h3><p>系统中有A和B两位选手，$R_A$ 和$R_B$分别代表A与B的当前等级分，之后A和B的进行一次竞技，结果记为$S_A$（如果A胜则$S_A=1$，负为0，平为0.5）。该次竞技后A的等级分更新如下：</p>
+<p>$$ R_{A}^{‘} = R_A + K(S_A - E_A) $$</p>
+<p>其中：</p>
+<ul>
+<li>$E_A$，代表A相对于B的获胜概率（胜率期望值）<ul>
+<li>$E_A=\frac{1}{1+10^{(R_B-R_A)/400}}$</li>
+</ul>
+</li>
+<li>$K$ 为一个常数，代表理论上最多可以赢一个玩家的得分和失分<ul>
+<li>K/2就是相同rating的玩家其中一方胜利后所得的分数</li>
+<li>在大部分的游戏规则中，K=32； 国际象棋大师赛中，K=16</li>
+<li>竞技的选手水平越高K取值越小（避免少数比赛改变顶尖玩家排名）</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<ul>
+<li>Elo模型原先采用正态分布。但是实践显明棋手的表现并非呈正态分布，所以现在的等级分计分系统通常使用的是逻辑分布。</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>公式中分母的400来由： 根据公式可以得出，当K值相同的情况下，越高的分母，越低的积分变化。总体来说400是一个平衡的、让多数玩家积分保持标准正态分布的值</li>
+</ul>
+</blockquote>
+<h3 id="实例说明"><a href="#实例说明" class="headerlink" title="实例说明"></a>实例说明</h3><p>若当前A玩家积分为1500，B玩家积分为1600 </p>
+<ul>
+<li>预估A玩家的胜负值： Ea = 1/(1+10^[（1600-1500）/400]）≈ 0.36 </li>
+<li>预估B玩家的胜负值： Eb = 1-Ea = 1-0.36 = 0.64 </li>
+<li>假设A玩家获胜，实际胜负值为Sa = 1 <ul>
+<li>A玩家最终得分为 ：R’a = 1500 + 32*(1-0.36) = 1500+20.5 = 1520 </li>
+<li>A玩家赢20分，B玩家输20分。 </li>
+</ul>
+</li>
+<li>假设B玩家获胜，实际胜负值为Sa = 1 <ul>
+<li>B队最终得分为 R’b = 1600 + 32*(1-0.64) = 1600 + 11.52 = 1612</li>
+<li>B玩家赢12分，A玩家输12分。</li>
+</ul>
+</li>
+</ul>
+<h2 id="Glicko-rating-system"><a href="#Glicko-rating-system" class="headerlink" title="Glicko rating system"></a>Glicko rating system</h2><p><a href="http://www.glicko.net/glicko.html" target="_blank" rel="noopener">Glicko</a>是由Mark Glickman提出的方法，是对Elo评分系统的改进，加入了评分偏差项RD（ratings deviation）。</p>
+<ul>
+<li>考虑未进行对战的时间长度，时间越长则RD越大</li>
+<li>举例解释：一个很久未参与竞技比赛的选手A，其能力值很可能不再等于系统记录的$R_A$，如果A与能力值相同的B（$R_A=R_B$）比赛，而选手B是近期一直活跃在系统的玩家，则明显能力值更加可信。<ul>
+<li>若A击败B，则A加分应该更多，B减分应该更少</li>
+<li>对于A：其能力不确定，击败了系统中相同等级的对手，说明很可能A的能力早已高于系统的记录，因此需要‘快速加分’</li>
+<li>对于B：被一个不太确定能力的人击败，说明A很可能本来就比B强，因此被击败不应该扣除太多积分，因此需要‘减少降分’</li>
+</ul>
+</li>
+</ul>
+<h3 id="计分方法-1"><a href="#计分方法-1" class="headerlink" title="计分方法"></a>计分方法</h3><p>对于选手A，1）记其能力评分（rating）为$r$；2）偏差(可理解为：标准差)为$RD$，为了方便计算，记方差为$v$ （$v=RD^2$）；3）第$j$次的比赛结果为$S_j$。则其进入系统后，随着比赛的增加，其得分相应计算如下：</p>
+<blockquote>
+<p>注意：比赛以周期为单位更新选手评分，此处假设选手A在一个周期t+1内，参与了m次比赛</p>
+</blockquote>
+<ul>
+<li>Step1：初始化评分<ul>
+<li>a) 无历史评分则，评分$r=1500$，方差$v=350^2$ （初始分可根据实际情况设置为其他数值）</li>
+<li>b) 有历史评分则，评分 $r=r_{old}$，方差$v=min(v_{old}+c^2t,350^2) $<ul>
+<li>$c$，衡量时间因素的常量系数</li>
+<li>$t$，本次比赛和上次比赛的时间间隔（几个时间周期）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Step2：更新评分$r_{new}$与方差$v_{new}$<ul>
+<li>方差:<br>$$ v_{new}=(\frac{1}{v}+d)^{-1} $$</li>
+<li>评分:<br>$$ r_{new}=r+qv_{new}{\sum_{j=1}^{m}k_j(s_j-e_j)} $$</li>
+<li>其中：<ul>
+<li>对比Elo的常量$K$,Glicko的系数是方差的函数：$k_j=\frac{1}{\sqrt{1+3q^2v_j/\pi^2}}$ （实际上要和Elo的$K$对等，还需要再乘$qv^*$）</li>
+<li>对比Elo的$E_A$,Glicko的获胜概率期望值加入$k_j$乘数，从而也和方差$v$有关：$e_j=\frac{1}{1+10^{-k_j(r-r_j)/400}}$</li>
+<li>$q=ln(10)/400$</li>
+<li>$d=q^2\sum_{j=1}^{m}k_j^2e_j(1-e_j)$</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="预测方法"><a href="#预测方法" class="headerlink" title="预测方法"></a>预测方法</h3><p>现有选手A，其评分和方差为$(r_a,v_a)$，若A与$(r_b,v_b)$的选手B进行比赛，则可预测A的胜率为：<br>$$ e_{ab}=\frac{1}{1+10^{-k_{ab}(r_a-r_b)/400}} $$<br>其中，<br>$$ k_{ab}=\frac{1}{\sqrt{1+3q^2(v_a+v_b)/\pi^2}} $$</p>
+<h3 id="tips"><a href="#tips" class="headerlink" title="tips"></a>tips</h3><ul>
+<li>关于$RD$：随着选手的活跃，参赛次数的增加，偏差会越来越小，$RD$太小会导致选手即使提升了能力赢得比赛，也只能加极少的分数，一般应用中会设置$RD$的下限，例如 $ RD=max(30,RD)$</li>
+<li>置信区间：根据 quasi-Bayesian derivation of the Glicko system，一般可以认为95%的置信区间如下：<br>$$(r-1.96RD,r+1.96RD)$$</li>
+</ul>
+<h2 id="工程实现"><a href="#工程实现" class="headerlink" title="工程实现"></a>工程实现</h2><p>使用 Alec Stephenson 写的R包<a href="https://cran.r-project.org/web/packages/PlayerRatings/" target="_blank" rel="noopener">PlayerRatings</a></p>
+<h3 id="共有参数"><a href="#共有参数" class="headerlink" title="共有参数"></a>共有参数</h3><ul>
+<li>data，数据，由四列组成：<ul>
+<li>时间：第几个比赛周</li>
+<li>主场方方选手名称，比如说中国队和西班牙队这次在中国比赛，那么中国为主场方</li>
+<li>非主场方选手名称</li>
+<li>得分，胜=1，平=0.5，负=0</li>
+</ul>
+</li>
+<li>status，当前计分系统的状态数据框<ul>
+<li>主要包括：选手名称（Player）、评分（Rating）、比赛总场次（Games）、胜场次（Win）、平场次（Draw）、负场次（Loss）、该队结束比赛后还剩的比赛周次（Lag）</li>
+<li>有‘RD’参数的系统，例如Glicko，还包括Deviation列</li>
+</ul>
+</li>
+<li>gamma，对主场方的偏置<ul>
+<li>主要用于预测，例如在A的地区和B比赛，那么同等水平下会A的胜率应该更高</li>
+<li>建模函数中gamma默认为0，而预测函数(<code>predict()</code>)中gamma默认为30</li>
+</ul>
+</li>
+</ul>
+<h3 id="建模函数"><a href="#建模函数" class="headerlink" title="建模函数"></a>建模函数</h3><ul>
+<li><p><code>elo()</code>，实现Elo评分系统，主要参数：</p>
+<ul>
+<li>data，status=NULL，gamma=0</li>
+<li>init，初始分，默认<code>init = 2200</code></li>
+<li>kfac，K值,<ul>
+<li>给定常数，默认<code>kfac=27</code></li>
+<li>也可以设置不同规则下的K值，例如场次在30以上取26，否则取32（<code>kfac=kgames</code>）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code>glicko()</code>，实现Glicko评分系统</p>
+<ul>
+<li>data，status=NULL，gamma=0</li>
+<li>init，初始分和标准差，默认<code>init = c(2200,300)</code></li>
+<li>cval，衡量时间因素的常量系数，默认<code>cval = 15</code>，（区别于Elo的重要参数）</li>
+</ul>
+</li>
+<li><p><code>steph()</code>，实现作者基于 Glicko 改进的 Stephenson 评分系统</p>
+<ul>
+<li>status = NULL, gamma = 0, </li>
+<li>init，初始分和标准差，默认<code>init = c(2200,300)</code></li>
+<li>cval = 10, hval = 10, bval = 0, lambda = 2<ul>
+<li>区别于其他系统的重要参数</li>
+<li>详细修改点和公式见<a href="https://en.wikipedia.org/wiki/Glicko_rating_system" target="_blank" rel="noopener">Glicko rating system</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/R/" rel="tag"># R</a>
+          
+            <a href="/tags/ranking/" rel="tag"># ranking</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/05/22/IRT-CAT/" rel="prev" title="自适应测评">
+                自适应测评 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">hetal</p>
+              <p class="site-description motion-element" itemprop="description">记录数据科学中常用的模型+代码+技巧</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景介绍"><span class="nav-number">1.</span> <span class="nav-text">背景介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Elo-rating-system"><span class="nav-number">2.</span> <span class="nav-text">Elo rating system</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#计分方法"><span class="nav-number">2.1.</span> <span class="nav-text">计分方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实例说明"><span class="nav-number">2.2.</span> <span class="nav-text">实例说明</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Glicko-rating-system"><span class="nav-number">3.</span> <span class="nav-text">Glicko rating system</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#计分方法-1"><span class="nav-number">3.1.</span> <span class="nav-text">计分方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#预测方法"><span class="nav-number">3.2.</span> <span class="nav-text">预测方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tips"><span class="nav-number">3.3.</span> <span class="nav-text">tips</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#工程实现"><span class="nav-number">4.</span> <span class="nav-text">工程实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#共有参数"><span class="nav-number">4.1.</span> <span class="nav-text">共有参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#建模函数"><span class="nav-number">4.2.</span> <span class="nav-text">建模函数</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">hetal</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://hetal.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2019/05/22/glicko/';
+          this.page.identifier = '2019/05/22/glicko/';
+          this.page.title = '基于竞技比赛的评分排序系统-Glicko';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://hetal.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("Eolx2VB8KRu0fqbO9NmFl65Y-gzGzoHsz", "4et9WAc7sjSrpR1bbUfcdHxU");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>

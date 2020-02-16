@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="R,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Lasso简介LASSO(Least Absolute Shrinkage and Selection Operator)是线性回归的一种缩减方式，通过引入$L_1$惩罚项，实现变量选择和参数估计。 $$\sum_{i=1}^{N}\left(y_{i}-\beta_{0}+\sum_{j=1}^{p} x_{i j} \beta_{j}\right)^{2}+\lambda \sum_{j=1}">
+<meta name="keywords" content="R">
+<meta property="og:type" content="article">
+<meta property="og:title" content="lasso-R示例">
+<meta property="og:url" content="http://yoursite.com/2019/06/14/lasso/index.html">
+<meta property="og:site_name" content="学习随记">
+<meta property="og:description" content="Lasso简介LASSO(Least Absolute Shrinkage and Selection Operator)是线性回归的一种缩减方式，通过引入$L_1$惩罚项，实现变量选择和参数估计。 $$\sum_{i=1}^{N}\left(y_{i}-\beta_{0}+\sum_{j=1}^{p} x_{i j} \beta_{j}\right)^{2}+\lambda \sum_{j=1}">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/lasso_demo_fit_cv.png">
+<meta property="og:image" content="http://yoursite.com/images/lasso_demo_coef_change.png">
+<meta property="og:updated_time" content="2020-02-16T07:53:00.739Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="lasso-R示例">
+<meta name="twitter:description" content="Lasso简介LASSO(Least Absolute Shrinkage and Selection Operator)是线性回归的一种缩减方式，通过引入$L_1$惩罚项，实现变量选择和参数估计。 $$\sum_{i=1}^{N}\left(y_{i}-\beta_{0}+\sum_{j=1}^{p} x_{i j} \beta_{j}\right)^{2}+\lambda \sum_{j=1}">
+<meta name="twitter:image" content="http://yoursite.com/images/lasso_demo_fit_cv.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/06/14/lasso/">
+
+
+
+
+
+  <title>lasso-R示例 | 学习随记</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">学习随记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">hetal</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/14/lasso/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hetal">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="学习随记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">lasso-R示例</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-14T00:00:00+08:00">
+                2019-06-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/模型/" itemprop="url" rel="index">
+                    <span itemprop="name">模型</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/模型/回归/" itemprop="url" rel="index">
+                    <span itemprop="name">回归</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/06/14/lasso/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/06/14/lasso/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/06/14/lasso/" class="leancloud_visitors" data-flag-title="lasso-R示例">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Lasso简介"><a href="#Lasso简介" class="headerlink" title="Lasso简介"></a>Lasso简介</h2><p>LASSO(Least Absolute Shrinkage and Selection Operator)是线性回归的一种缩减方式，通过引入$L_1$惩罚项，实现变量选择和参数估计。</p>
+<p>$$\sum_{i=1}^{N}\left(y_{i}-\beta_{0}+\sum_{j=1}^{p} x_{i j} \beta_{j}\right)^{2}+\lambda \sum_{j=1}^{p}\left|\beta_{j}\right|$$</p>
+<h2 id="R示例"><a href="#R示例" class="headerlink" title="R示例"></a>R示例</h2><p>简单的建模过程主要包括：</p>
+<ul>
+<li>数据切分、清洗</li>
+<li>建模，使用R的<code>glmnet</code>包即可实现lasso</li>
+<li>评估，分类常使用混淆矩阵、ROC（使用<code>ROCR</code>包），数值型预测常使用MAPE</li>
+</ul>
+<p>以下用简单的数据集实现Lasso-LR：<br>这是由真实的医学数据抽样得到的一份demo数据，x1-x19分别代表不同的基因或者染色体表现数据，Y代表病人是否患有某种疾病。（由于数据敏感，因此都用$X_i$代替。）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rm(list=ls())</span><br><span class="line">library(data.table)</span><br><span class="line">dat_use &lt;- fread(&apos;demo_data.csv&apos;,header = T)</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">head(dat_use)</span><br><span class="line">   # y Genotype Age Gender   X1   X2   X3   X4   X5   X6   X7   X8   X9  X10  X11  X12  X13  X14   X15 X16 X17  X18  X19</span><br><span class="line"># 1: 1        0  19      0 2.09 1.85 1.93 5.54 5.08 6.20 8.82 8.19 8.09 4.77 4.53 4.48 3.50 3.23  3.22   0   0 0.46 0.64</span><br><span class="line"># 2: 0        2  20      0 2.54 2.07 1.61 6.19 4.21 0.00 7.53 2.25 1.97 4.41 3.98 3.46 2.49 1.61  1.83   0   1 1.98 5.27</span><br><span class="line"># 3: 1        1  32      1 2.17 2.22 1.95 6.67 5.39 0.00 7.89 5.89 3.00 4.49 2.88 0.03 2.87 2.45  1.23   0   1 1.28 2.00</span><br><span class="line"># 4: 0        1  20      0 2.01 1.68 2.15 6.20 0.00 4.05 7.44 4.60 2.10 4.11 4.28 4.19 2.91 2.08 -0.96   1   0 6.20 2.83</span><br><span class="line"># 5: 1        1  41      1 2.15 1.67 1.56 7.10 0.00 0.00 8.55 3.68 3.40 4.48 3.12 3.26 2.92 1.29  1.36   1   1 7.10 4.87</span><br><span class="line"># 6: 1        1  47      1 1.93 1.62 2.63 6.43 5.21 5.76 8.13 7.95 6.96 4.36 4.47 4.27 2.96 2.52  2.38   0   0 1.22 0.17</span><br></pre></td></tr></table></figure>
+<h3 id="数据预处理"><a href="#数据预处理" class="headerlink" title="数据预处理"></a>数据预处理</h3><p>首先将类别型变量转为哑变量，借助<code>caret</code>的<code>dummyVars</code>函数可以轻松获取哑变量<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">library(caret)</span><br><span class="line"># Genotype 为数据中多类型的类别型变量，其他例如Age和Gender为二值0-1变量，无需再转换</span><br><span class="line"># 首先将类别型变量转为facor类型</span><br><span class="line">names_factor &lt;- c(&apos;Genotype&apos;)</span><br><span class="line">dat_use[, (names_factor) := lapply(.SD, as.factor), .SDcols = names_factor]</span><br><span class="line"># 抽取出类别型变量对应的哑变量矩阵</span><br><span class="line">dummyModel &lt;- dummyVars(~ Genotype,</span><br><span class="line">                        data = dat_use,</span><br><span class="line">                        sep = &quot;.&quot;)</span><br><span class="line">dat_dummy &lt;- predict(dummyModel, dat_use)</span><br><span class="line"># 合并哑变量矩阵，并删除对应原始数据列</span><br><span class="line">dat_model &lt;- cbind(dat_use[,-c(names_factor),with=F],dat_dummy)</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">head(dat_dummy)</span><br><span class="line">  # Genotype.0 Genotype.1 Genotype.2</span><br><span class="line"># 1          1          0          0</span><br><span class="line"># 2          0          0          1</span><br><span class="line"># 3          0          1          0</span><br><span class="line"># 4          0          1          0</span><br><span class="line"># 5          0          1          0</span><br><span class="line"># 6          0          1          0</span><br></pre></td></tr></table></figure>
+<p>切分数据集<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"># 设置随机数种子，便于结果重现</span><br><span class="line">set.seed(1)</span><br><span class="line"># split data</span><br><span class="line">N &lt;- nrow(dat_model)</span><br><span class="line">test_index &lt;- sample(N,0.3*N)</span><br><span class="line">train_index &lt;- c(1:N)[-test_index]</span><br><span class="line">test_data &lt;- dat_model[test_index,]</span><br><span class="line">train_data &lt;- dat_model[train_index,]</span><br><span class="line"># 指定因变量列，</span><br><span class="line">y_name &lt;- &apos;y&apos;</span><br><span class="line">thedat &lt;- na.omit(train_data)</span><br><span class="line">y &lt;-  c(thedat[,y_name,with=F])[[1]]</span><br><span class="line">x &lt;- thedat[,c(y_name):=NULL]</span><br><span class="line">x &lt;- as.matrix(x)</span><br><span class="line"># normalize（此步骤可省略，因为glmnet默认会标准化后建模，再返回变换后的真实系数）</span><br><span class="line"># pp = preProcess(x,method = c(&quot;center&quot;, &quot;scale&quot;))</span><br><span class="line"># x &lt;- predict(pp, x)</span><br></pre></td></tr></table></figure></p>
+<h3 id="建模"><a href="#建模" class="headerlink" title="建模"></a>建模</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">library(glmnet)</span><br><span class="line"># fit the model</span><br><span class="line">fit &lt;- glmnet(x, y, alpha=1,family = &apos;binomial&apos;)</span><br><span class="line"># 使用area under the ROC curve, CV 选择压缩参数lambda</span><br><span class="line"># 再设置一次set.seed</span><br><span class="line">set.seed(1)</span><br><span class="line">fit_cv &lt;- cv.glmnet(x, y, alpha=1, family = &apos;binomial&apos;, type.measure=&apos;auc&apos;)</span><br><span class="line">plot(fit_cv)</span><br></pre></td></tr></table></figure>
+<img src="/images/lasso_demo_fit_cv.png" class="[class names]" width="600" height="400">
+<p>可以看到压缩到5个变量时AUC最大，对应 $log(lambda)=-3.67$，抽取出对应5个变量的模型系数如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># log(fit_cv$lambda.min)=-3.67</span><br><span class="line">get_coe &lt;- function(the_fit,the_lamb)&#123;</span><br><span class="line">  Coefficients &lt;- coef(the_fit, s = the_lamb)</span><br><span class="line">  Active.Index &lt;- which(Coefficients != 0)</span><br><span class="line">  Active.Coefficients &lt;- Coefficients[Active.Index]</span><br><span class="line">  re &lt;- data.frame(rownames(Coefficients)[Active.Index],Active.Coefficients)</span><br><span class="line">  re &lt;- data.table(&apos;var_names&apos;=rownames(Coefficients)[Active.Index],</span><br><span class="line">                   &apos;coef&apos;=Active.Coefficients)</span><br><span class="line">  # 计算系数的指数次方，表示x每变动一个单位对y的影响倍数</span><br><span class="line">  re$expcoef &lt;- exp(re$coef)</span><br><span class="line">  return(re[order(expcoef)])</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">get_coe(fit_cv,fit_cv$lambda.min)</span><br><span class="line">     # var_names        coef   expcoef</span><br><span class="line"># 1: (Intercept) -1.12352837 0.3251306</span><br><span class="line"># 2:         X16 -0.20444072 0.8151031</span><br><span class="line"># 3:  Genotype.0 -0.15247051 0.8585842</span><br><span class="line"># 4:         Age  0.02762516 1.0280103</span><br><span class="line"># 5:         X14  0.15049722 1.1624121</span><br><span class="line"># 6:         X15  0.77624720 2.1733010</span><br></pre></td></tr></table></figure>
+<p>但医学上经常需要看每个变量在不同惩罚参数lambda下的压缩程度，从而结合实际背景进一步判别有效的影响因素，因此可借助以下图像进行分析，可以看到x15对y的影响最大（此去省略1000字）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">get_plot&lt;- function(the_fit,the_fit_cv,the_lamb,toplot = seq(1,50,2))&#123;</span><br><span class="line">    Coefficients &lt;- coef(the_fit, s = the_lamb)</span><br><span class="line">    Active.Index &lt;- which(Coefficients != 0)</span><br><span class="line">    coeall &lt;- coef(the_fit, s = the_fit_cv$lambda[toplot])</span><br><span class="line">    coe &lt;- coeall[Active.Index[-1],]</span><br><span class="line">    ylims=c(-max(abs(coe)),max(abs(coe)))</span><br><span class="line">    sp &lt;- spline(log(the_fit_cv$lambda[toplot]),coe[1,],n=100)</span><br><span class="line">    plot(sp,type=&apos;l&apos;,col =1,lty=1, </span><br><span class="line">         ylim = ylims,ylab = &apos;Coefficient&apos;, xlab = &apos;log(lambda)&apos;) </span><br><span class="line">    abline(h=0) </span><br><span class="line">    for(i in c(2:nrow(coe)))&#123;</span><br><span class="line">        lines(spline(log(the_fit_cv$lambda[toplot]),coe[i,],n=1000),</span><br><span class="line">              col =i,lty=i)</span><br><span class="line">    &#125;</span><br><span class="line">    legend(&quot;bottomright&quot;,legend=rownames(coe),col=c(1:nrow(coe)),</span><br><span class="line">           lty=c(1:nrow(coe)),</span><br><span class="line">           cex=0.5)</span><br><span class="line">&#125;</span><br><span class="line"># 传入最优lambda-1，从而保留更多变量</span><br><span class="line">get_plot(fit,fit_cv,exp(log(fit_cv$lambda.min)-1))</span><br></pre></td></tr></table></figure></p>
+<img src="/images/lasso_demo_coef_change.png" class="[class names]" width="600" height="500">
+<h3 id="评估"><a href="#评估" class="headerlink" title="评估"></a>评估</h3><p>对于分类模型，最常用的评估指标莫过于AUC值了，使用<code>ROCR</code>包可获取AUC值，为了多维度的评估，将混淆矩阵，和各种recall/accuracy指标加入其中。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">library(ROCR)</span><br><span class="line">get_confusion_stat &lt;- function(pred,y_real,threshold=0.5)&#123;</span><br><span class="line">  # auc</span><br><span class="line">  tmp &lt;- prediction(as.vector(pred),y_real)</span><br><span class="line">  auc &lt;- unlist(slot(performance(tmp,&apos;auc&apos;),&apos;y.values&apos;))</span><br><span class="line">  # statistic</span><br><span class="line">  pred_new &lt;- as.integer(pred&gt;threshold) </span><br><span class="line">  tab &lt;- table(pred_new,y_real)</span><br><span class="line">  if(nrow(tab)==1)&#123;</span><br><span class="line">    print(&apos;preds all zero !&apos;)</span><br><span class="line">    return(0)</span><br><span class="line">  &#125;</span><br><span class="line">  TP &lt;- tab[2,2]</span><br><span class="line">  TN &lt;- tab[1,1]</span><br><span class="line">  FP &lt;- tab[2,1]</span><br><span class="line">  FN &lt;- tab[1,2]</span><br><span class="line">  accuracy &lt;- round((TP+TN)/(TP+FN+FP+TN),4)</span><br><span class="line">  recall_sensitivity &lt;- round(TP/(TP+FN),4)</span><br><span class="line">  precision &lt;- round(TP/(TP+FP),4)</span><br><span class="line">  specificity &lt;- round(TN/(TN+FP),4)</span><br><span class="line">  # 添加，预测的负例占比（业务解释：去除多少的样本，达到多少的recall）</span><br><span class="line">  neg_rate &lt;- round((TN+FN)/(TP+TN+FP+FN),4)</span><br><span class="line">  re &lt;- list(&apos;AUC&apos; = auc,</span><br><span class="line">             &apos;Confusion_Matrix&apos;=tab,</span><br><span class="line">             &apos;Statistics&apos;=data.frame(value=c(&apos;accuracy&apos;=accuracy,</span><br><span class="line">                                             &apos;recall_sensitivity&apos;=recall_sensitivity,</span><br><span class="line">                                             &apos;precision&apos;=precision,</span><br><span class="line">                                             &apos;specificity&apos;=specificity,</span><br><span class="line">                                             &apos;neg_rate&apos;=neg_rate)))</span><br><span class="line">  return(re)</span><br><span class="line">&#125;</span><br><span class="line"># 结合数据预处理部分，得到模型在测试集上的表现</span><br><span class="line">get_eval &lt;- function(data,theta=0.5,the_fit=fit,the_lamb=fit_cv$lambda.min)&#123;</span><br><span class="line">  thedat_test &lt;- na.omit(data)</span><br><span class="line">  y &lt;-  c(thedat_test[,y_name,with=F])[[1]]</span><br><span class="line">  x &lt;- thedat_test[,-c(y_name),with=F]</span><br><span class="line">  x &lt;- as.matrix(x)</span><br><span class="line">  pred &lt;- predict(the_fit,newx=x,s=the_lamb,type = &apos;response&apos;)</span><br><span class="line">  print(get_confusion_stat(pred,y, theta))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"># get_eval(train_data) 篇幅原因不再展示训练集的拟合效果</span><br><span class="line">get_eval(test_data)</span><br><span class="line"># $AUC</span><br><span class="line"># [1] 0.8406198</span><br><span class="line"></span><br><span class="line"># $Confusion_Matrix</span><br><span class="line">        # y_real</span><br><span class="line"># pred_new   0   1</span><br><span class="line">       # 0  20   8</span><br><span class="line">       # 1  32 131</span><br><span class="line"></span><br><span class="line"># $Statistics</span><br><span class="line">                    # value</span><br><span class="line"># accuracy           0.7906</span><br><span class="line"># recall_sensitivity 0.9424</span><br><span class="line"># precision          0.8037</span><br><span class="line"># specificity        0.3846</span><br><span class="line"># neg_rate           0.1466</span><br></pre></td></tr></table></figure>
+<p>可以看到模型在测试集上的表选比较不错，AUC值达到0.84,不过在specificity上表现欠佳，说明在负样本上的召回较差（52个负样本，只预测对了20个）。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/R/" rel="tag"># R</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/23/data-table/" rel="next" title="data.table小技巧">
+                <i class="fa fa-chevron-left"></i> data.table小技巧
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/01/evaluation/" rel="prev" title="模型常用评估指标详解">
+                模型常用评估指标详解 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">hetal</p>
+              <p class="site-description motion-element" itemprop="description">记录数据科学中常用的模型+代码+技巧</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Lasso简介"><span class="nav-number">1.</span> <span class="nav-text">Lasso简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#R示例"><span class="nav-number">2.</span> <span class="nav-text">R示例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据预处理"><span class="nav-number">2.1.</span> <span class="nav-text">数据预处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#建模"><span class="nav-number">2.2.</span> <span class="nav-text">建模</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#评估"><span class="nav-number">2.3.</span> <span class="nav-text">评估</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">hetal</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://hetal.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2019/06/14/lasso/';
+          this.page.identifier = '2019/06/14/lasso/';
+          this.page.title = 'lasso-R示例';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://hetal.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("Eolx2VB8KRu0fqbO9NmFl65Y-gzGzoHsz", "4et9WAc7sjSrpR1bbUfcdHxU");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>
