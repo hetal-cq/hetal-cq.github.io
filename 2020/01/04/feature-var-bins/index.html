@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="特征处理实际是整个建模过程中耗时最多，实际也是最重要最有意义的部分，所谓巧妇难为无米之炊。当我们有了米该如何淘呢？那么变量分箱则是实现’模型稳健性’+’业务实用性’的一大杀器。 我最喜欢的分箱方法：对x直接建决策树，参考其分割点，结合业务背景微调成为想要的cutoff。R代码如下： 123456789101112131415161718192021222324252627282930313233l">
+<meta name="description" content="特征处理实际是整个建模过程中耗时最多，实际也是最重要最有意义的部分，所谓巧妇难为无米之炊。当我们有了米该如何淘呢？那么变量分箱则是实现’模型稳健性’+’业务实用性’的一大杀器。 我最喜欢的分箱方法：对x直接建决策树，参考其分割点，结合业务背景微调成为想要的cutoff。 示例R代码如下： 1234567891011121314151617181920212223242526272829303132">
 <meta name="keywords" content="分箱">
 <meta property="og:type" content="article">
 <meta property="og:title" content="变量分箱">
 <meta property="og:url" content="http://yoursite.com/2020/01/04/feature-var-bins/index.html">
 <meta property="og:site_name" content="学习随记">
-<meta property="og:description" content="特征处理实际是整个建模过程中耗时最多，实际也是最重要最有意义的部分，所谓巧妇难为无米之炊。当我们有了米该如何淘呢？那么变量分箱则是实现’模型稳健性’+’业务实用性’的一大杀器。 我最喜欢的分箱方法：对x直接建决策树，参考其分割点，结合业务背景微调成为想要的cutoff。R代码如下： 123456789101112131415161718192021222324252627282930313233l">
+<meta property="og:description" content="特征处理实际是整个建模过程中耗时最多，实际也是最重要最有意义的部分，所谓巧妇难为无米之炊。当我们有了米该如何淘呢？那么变量分箱则是实现’模型稳健性’+’业务实用性’的一大杀器。 我最喜欢的分箱方法：对x直接建决策树，参考其分割点，结合业务背景微调成为想要的cutoff。 示例R代码如下： 1234567891011121314151617181920212223242526272829303132">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-02-16T08:00:07.141Z">
+<meta property="og:updated_time" content="2020-06-21T03:45:44.312Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="变量分箱">
-<meta name="twitter:description" content="特征处理实际是整个建模过程中耗时最多，实际也是最重要最有意义的部分，所谓巧妇难为无米之炊。当我们有了米该如何淘呢？那么变量分箱则是实现’模型稳健性’+’业务实用性’的一大杀器。 我最喜欢的分箱方法：对x直接建决策树，参考其分割点，结合业务背景微调成为想要的cutoff。R代码如下： 123456789101112131415161718192021222324252627282930313233l">
+<meta name="twitter:description" content="特征处理实际是整个建模过程中耗时最多，实际也是最重要最有意义的部分，所谓巧妇难为无米之炊。当我们有了米该如何淘呢？那么变量分箱则是实现’模型稳健性’+’业务实用性’的一大杀器。 我最喜欢的分箱方法：对x直接建决策树，参考其分割点，结合业务背景微调成为想要的cutoff。 示例R代码如下： 1234567891011121314151617181920212223242526272829303132">
 
 
 
@@ -406,7 +406,8 @@
 
       
         <p>特征处理实际是整个建模过程中耗时最多，实际也是最重要最有意义的部分，所谓巧妇难为无米之炊。当我们有了米该如何淘呢？那么变量分箱则是实现’模型稳健性’+’业务实用性’的一大杀器。</p>
-<p>我最喜欢的分箱方法：对x直接建决策树，参考其分割点，结合业务背景微调成为想要的cutoff。R代码如下：</p>
+<p>我最喜欢的分箱方法：对x直接建决策树，参考其分割点，结合业务背景微调成为想要的cutoff。</p>
+<p>示例R代码如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">library(partykit)</span><br><span class="line">get_bins &lt;- function(df,x,y,p=0.05)&#123;</span><br><span class="line">  print(paste(&apos;----- x: &apos;,x,&apos; ---------&apos;))</span><br><span class="line">  df=as.data.frame(df)</span><br><span class="line">  ctree = ctree(formula(paste(y, &quot;~&quot;, x)), data = df, na.action = na.exclude, </span><br><span class="line">                control = ctree_control(minbucket = ceiling(round(p * nrow(df)))))</span><br><span class="line">  bins = width(ctree)</span><br><span class="line">  if (bins &lt; 2) &#123;</span><br><span class="line">    return(list(&apos;ctree&apos;=&quot;No significant splits&quot;,</span><br><span class="line">                &apos;cutvct&apos;=&quot;No significant splits&quot;))</span><br><span class="line">  &#125;</span><br><span class="line">  cutvct = data.frame(matrix(ncol = 0, nrow = 0))</span><br><span class="line">  n = length(ctree)</span><br><span class="line">  for (i in 1:n) &#123;</span><br><span class="line">    cutvct = rbind(cutvct, ctree[i]$node$split$breaks)</span><br><span class="line">  &#125;</span><br><span class="line">  cutvct = cutvct[order(cutvct[, 1]), ]</span><br><span class="line">  return(list(&apos;ctree&apos;=ctree,&apos;cutvct&apos;=cutvct))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">get_var_cut &lt;- function(cut_name = &apos;eg&apos;,</span><br><span class="line">                        the_breaks = c(-1,2,3),</span><br><span class="line">                        dt=dat_model_data,</span><br><span class="line">                        the_labels=NA)&#123;</span><br><span class="line">  # 根据传入的指标和分割点，给数据框新增cut后的一列，命名以_cut结尾</span><br><span class="line">  if(is.na(the_labels))&#123;</span><br><span class="line">    the_labels  &lt;- paste0(the_breaks[-length(the_breaks)],&apos;~&apos;,the_breaks[-1])</span><br><span class="line">  &#125;</span><br><span class="line">  # 注意，cut是左开右闭类型( ]</span><br><span class="line">  re_cut &lt;- cut(dt[[cut_name]],breaks = the_breaks,labels = the_labels)</span><br><span class="line">  dt[[paste0(cut_name,&apos;_cut&apos;)]] &lt;- re_cut</span><br><span class="line">  return(dt)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>以上为工作中总结出的代码，屡试不爽，具体原理和和科学分析，且听下回分解…</p>
 
