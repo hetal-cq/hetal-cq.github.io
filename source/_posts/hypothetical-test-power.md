@@ -7,6 +7,7 @@ categories:
 tags:
 	- power
 	- 两类错误
+	- 样本量预估
 ---
 
 一个对比实验，需要多大的样本量才能确保统计结果可信？做完实验后，如何判断其结果的显著性？而结果显著性的这个结论，又有多大的可信度？这涉及到假设检验的两类错误的理解，以及衍生出来的功效分析。
@@ -119,3 +120,4 @@ pwr.2p.test(h=ES.h(0.3,0.2),sig.level = 0.05,n=41,alternative = 'greater')
 
 - 卡巴科弗高涛, 肖楠, 陈钢. R语言实战 : R in action: data analysis and graphics with R[M]. 人民邮电出版社, 2013.
 - [coursera的统计推断-第四周课程](https://www.coursera.org/learn/statistical-inference)
+
