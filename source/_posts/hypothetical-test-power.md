@@ -114,3 +114,8 @@ pwr.2p.test(h=ES.h(0.3,0.2),sig.level = 0.05,n=41,alternative = 'greater')
 # 
 # NOTE: same sample sizes
 ```
+
+# References
+
+- 卡巴科弗高涛, 肖楠, 陈钢. R语言实战 : R in action: data analysis and graphics with R[M]. 人民邮电出版社, 2013.
+- [coursera的统计推断-第四周课程](https://www.coursera.org/learn/statistical-inference)
