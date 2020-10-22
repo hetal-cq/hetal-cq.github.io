@@ -88,7 +88,7 @@
 <meta property="og:description" content="一个对比实验，需要多大的样本量才能确保统计结果可信？做完实验后，如何判断其结果的显著性？而结果显著性的这个结论，又有多大的可信度？这涉及到假设检验的两类错误的理解，以及衍生出来的功效分析。 假设检验的两类错误统计假设检验中，我们会先设定原假设（$H_0$)，并同时设立它的对面，称为备择假设（$H_1$)。那么我们根据检验来判断是否拒绝H0，与实际的H0真假，对应有4个组合，其中判断错误的两个组合则">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/images/power_alpha_demo.png">
-<meta property="og:updated_time" content="2020-10-22T06:32:52.848Z">
+<meta property="og:updated_time" content="2020-10-22T06:36:14.012Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="假设检验的两类错误-功效分析和样本量预估">
 <meta name="twitter:description" content="一个对比实验，需要多大的样本量才能确保统计结果可信？做完实验后，如何判断其结果的显著性？而结果显著性的这个结论，又有多大的可信度？这涉及到假设检验的两类错误的理解，以及衍生出来的功效分析。 假设检验的两类错误统计假设检验中，我们会先设定原假设（$H_0$)，并同时设立它的对面，称为备择假设（$H_1$)。那么我们根据检验来判断是否拒绝H0，与实际的H0真假，对应有4个组合，其中判断错误的两个组合则">
@@ -463,7 +463,7 @@
 <p>根据原假设和备择假设，可以分别画出分布图如下：</p>
  <img src="/images/power_alpha_demo.png" class="[class names]">
 <p>显然，这个示例需要使用均值T检验，给定显著性水平后，就能根据分布推出临界值，即如果n个样本计算出的T统计量落在图中黑线右侧，则拒绝原假设,犯第一类错误的概率为红色阴影面积(alpha)，而接受备择假设的正确率则为蓝色阴影面积（power）。</p>
-<p>上述T检验对应alpha和power具体的计算公式如下（即只有分布均值$\mu$的差异，主要求$\beta$的是非中心化的t分布）：</p>
+<p>上述T检验对应alpha和power具体的计算公式如下（即只有分布均值$\mu$的差异，注意求$\beta$的是非中心化的t分布）：</p>
 <ul>
 <li>$ \alpha=P\left(\frac{\bar{X}-30}{s / \sqrt{n}}&gt;t_{1-\alpha, n-1} ; \mu=30\right) $</li>
 <li>$ 1-\beta=P\left(\frac{\bar{X}-30}{s / \sqrt{n}}&gt;t_{1-\alpha, n-1} ; \mu=32\right) $</li>
