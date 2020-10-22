@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="power,两类错误,样本量预估,">
 
 
 
@@ -79,16 +79,20 @@
 
 
 
-<meta name="description" content="记录数据科学中常用的模型+代码+技巧">
-<meta property="og:type" content="website">
-<meta property="og:title" content="学习随记">
-<meta property="og:url" content="http://yoursite.com/categories/技术语言/index.html">
+<meta name="description" content="一个对比实验，需要多大的样本量才能确保统计结果可信？做完实验后，如何判断其结果的显著性？而结果显著性的这个结论，又有多大的可信度？这涉及到假设检验的两类错误的理解，以及衍生出来的功效分析。 假设检验的两类错误统计假设检验中，我们会先设定原假设（$H_0$)，并同时设立它的对面，称为备择假设（$H_1$)。那么我们根据检验来判断是否拒绝H0，与实际的H0真假，对应有4个组合，其中判断错误的两个组合则">
+<meta name="keywords" content="power,两类错误,样本量预估">
+<meta property="og:type" content="article">
+<meta property="og:title" content="假设检验的两类错误-功效分析和样本量预估">
+<meta property="og:url" content="http://yoursite.com/2020/07/18/hypothetical-test-power/index.html">
 <meta property="og:site_name" content="学习随记">
-<meta property="og:description" content="记录数据科学中常用的模型+代码+技巧">
+<meta property="og:description" content="一个对比实验，需要多大的样本量才能确保统计结果可信？做完实验后，如何判断其结果的显著性？而结果显著性的这个结论，又有多大的可信度？这涉及到假设检验的两类错误的理解，以及衍生出来的功效分析。 假设检验的两类错误统计假设检验中，我们会先设定原假设（$H_0$)，并同时设立它的对面，称为备择假设（$H_1$)。那么我们根据检验来判断是否拒绝H0，与实际的H0真假，对应有4个组合，其中判断错误的两个组合则">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/power_alpha_demo.png">
+<meta property="og:updated_time" content="2020-10-22T06:32:52.848Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="学习随记">
-<meta name="twitter:description" content="记录数据科学中常用的模型+代码+技巧">
+<meta name="twitter:title" content="假设检验的两类错误-功效分析和样本量预估">
+<meta name="twitter:description" content="一个对比实验，需要多大的样本量才能确保统计结果可信？做完实验后，如何判断其结果的显著性？而结果显著性的这个结论，又有多大的可信度？这涉及到假设检验的两类错误的理解，以及衍生出来的功效分析。 假设检验的两类错误统计假设检验中，我们会先设定原假设（$H_0$)，并同时设立它的对面，称为备择假设（$H_1$)。那么我们根据检验来判断是否拒绝H0，与实际的H0真假，对应有4个组合，其中判断错误的两个组合则">
+<meta name="twitter:image" content="http://yoursite.com/images/power_alpha_demo.png">
 
 
 
@@ -118,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/categories/技术语言/">
+  <link rel="canonical" href="http://yoursite.com/2020/07/18/hypothetical-test-power/">
 
 
 
 
 
-  <title>分类: 技术语言 | 学习随记</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title>假设检验的两类错误-功效分析和样本量预估 | 学习随记</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
@@ -143,7 +147,7 @@
     
   
 
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left ">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -279,79 +283,277 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block category">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>技术语言<small>分类</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/18/hypothetical-test-power/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hetal">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="学习随记">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2019/09/08/exception-handling/" itemprop="url">
-              
-                <span itemprop="name">异常处理-R与Python</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">假设检验的两类错误-功效分析和样本量预估</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-09-08T00:00:00+08:00" content="2019-09-08">
-          09-08
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-18T16:42:28+08:00">
+                2020-07-18
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/统计/" itemprop="url" rel="index">
+                    <span itemprop="name">统计</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/统计/假设检验/" itemprop="url" rel="index">
+                    <span itemprop="name">假设检验</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/07/18/hypothetical-test-power/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/07/18/hypothetical-test-power/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2020/07/18/hypothetical-test-power/" class="leancloud_visitors" data-flag-title="假设检验的两类错误-功效分析和样本量预估">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-        
+      
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/05/23/data-table/" itemprop="url">
-              
-                <span itemprop="name">data.table小技巧</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-05-23T00:00:00+08:00" content="2019-05-23">
-          05-23
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+      
+        <p>一个对比实验，需要多大的样本量才能确保统计结果可信？做完实验后，如何判断其结果的显著性？而结果显著性的这个结论，又有多大的可信度？这涉及到假设检验的两类错误的理解，以及衍生出来的功效分析。</p>
+<h1 id="假设检验的两类错误"><a href="#假设检验的两类错误" class="headerlink" title="假设检验的两类错误"></a>假设检验的两类错误</h1><p>统计假设检验中，我们会先设定原假设（$H_0$)，并同时设立它的对面，称为备择假设（$H_1$)。那么我们根据检验来判断是否拒绝H0，与实际的H0真假，对应有4个组合，其中判断错误的两个组合则分别是第一类和第二类错误。具体如下表：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>拒绝$H_0$</th>
+<th>不拒绝$H_0$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$H_0$为真</td>
+<td>第一类错误($\alpha$)</td>
+<td>正确 ($1-\alpha$)</td>
+</tr>
+<tr>
+<td>$H_0$为假</td>
+<td>正确($power=1-\beta$)</td>
+<td>第二类错误($\beta$)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>第一类错误<ul>
+<li>原假设是真的，但我们拒绝了它（误认为它是假的）</li>
+<li>对应假设检验的显著性水平($\alpha$)。</li>
+<li>这也是常被人称道的P值的对比标准，例如P值小于0.05则认为通过假设检验，拒绝XX相等的原假设，结论是XX有显著差异</li>
+</ul>
+</li>
+<li>第二类错误<ul>
+<li>原假设是假的，但我们没有拒绝它（误认为它是真的）</li>
+<li>当原假设为假，我们正确拒绝原假设的概率就是 1-第二类错误概率，对应假设检验的功效($power=1-\beta$)。</li>
+<li>power一般设置0.8以上，才认为拒绝$H_0$的决策，具有足够的功效（这个往往被人遗忘)</li>
+</ul>
+</li>
+</ul>
+<h1 id="alpha和power的详解"><a href="#alpha和power的详解" class="headerlink" title="alpha和power的详解"></a>alpha和power的详解</h1><p>举个实例来阐述alpha和power：一家公司更新了销售策略，希望知道单价是否有显著提升，原来的客单价30元/人，公司认为提升到32元/人的课单价才认可新策略。现在收集到了新策略下的n个样本，需要针对这批样本做假设检验，那么要检验的假设如下：</p>
+<ul>
+<li>原假设 $H_{0}:\mu=30$</li>
+<li>备择假设 $H_{1}: \mu=32$</li>
+</ul>
+<p>根据原假设和备择假设，可以分别画出分布图如下：</p>
+ <img src="/images/power_alpha_demo.png" class="[class names]">
+<p>显然，这个示例需要使用均值T检验，给定显著性水平后，就能根据分布推出临界值，即如果n个样本计算出的T统计量落在图中黑线右侧，则拒绝原假设,犯第一类错误的概率为红色阴影面积(alpha)，而接受备择假设的正确率则为蓝色阴影面积（power）。</p>
+<p>上述T检验对应alpha和power具体的计算公式如下（即只有分布均值$\mu$的差异，主要求$\beta$的是非中心化的t分布）：</p>
+<ul>
+<li>$ \alpha=P\left(\frac{\bar{X}-30}{s / \sqrt{n}}&gt;t_{1-\alpha, n-1} ; \mu=30\right) $</li>
+<li>$ 1-\beta=P\left(\frac{\bar{X}-30}{s / \sqrt{n}}&gt;t_{1-\alpha, n-1} ; \mu=32\right) $</li>
+</ul>
+<h1 id="样本量的计算"><a href="#样本量的计算" class="headerlink" title="样本量的计算"></a>样本量的计算</h1><p>铺垫这么多，终于能讲样本量的计算了。上一部分T检验的功效公式，可以看到，功效除了和样本分布、显著性水平有关，还和样本量$n$有关。因此实际假设检验中有4项相互依赖的指标：</p>
+<ul>
+<li>显著性水平,P(第一类错误)</li>
+<li>功效，1-P(第二类错误)</li>
+<li>样本大小，n</li>
+<li>效应值（例如上面效应值定义为$(32-30)/\sigma$)</li>
+</ul>
+<p>以上4个指标确定其中三个即可计算出第四个。于是我们要预估假设检验所需的样本量，则需要先给定另外三项的取值，再代入公式计算即可。不同类型的假设检验都有不同的公式，此处不再赘述。</p>
+<h2 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h2><p>R语言中，直接使用<code>library(pwr)</code>包即可实现各类检验的功效分析。以工作中最常见的两个检验（均值T检验和比例检验）为例，代码如下：</p>
+<h3 id="示例-均值T检验"><a href="#示例-均值T检验" class="headerlink" title="示例-均值T检验"></a>示例-均值T检验</h3><p>以上面的为例，假设根据过去经验知道客单价的标注差为4，想要验证客单价从30提升到了32，在显著性水平为0.05，功效为0.9的标准下，对应需要样本量n：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">library</span>(pwr)</span><br><span class="line">pwr.t.test(d=(<span class="number">32</span>-<span class="number">30</span>)/<span class="number">4</span>,sig.level = <span class="number">0.05</span>,power = <span class="number">0.9</span>,type = <span class="string">'one.sample'</span>,alternative = <span class="string">'greater'</span>)</span><br></pre></td></tr></table></figure>
+<p>结果显示，要达到以上标准，至少需要36个样本（注意，效应值为<code>d=(32-30)/4</code>，由于只有一组数据，所以是单样本检验’one.sample’，由于只对客单价提高感兴趣，因此只需单边检验 <code>alternative = greater</code>）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># One-sample t test power calculation </span><br><span class="line"># </span><br><span class="line"># n = 35.65269</span><br><span class="line"># d = 0.5</span><br><span class="line"># sig.level = 0.05</span><br><span class="line"># power = 0.9</span><br><span class="line"># alternative = greater</span><br></pre></td></tr></table></figure>
+<h3 id="示例-比例检验"><a href="#示例-比例检验" class="headerlink" title="示例-比例检验"></a>示例-比例检验</h3><p>某公司想对比两个策略下（一个是对照组，一个是测试组）的转化率是否有显著差异，按照历史经验知道对照组的转化率是0.2，而测试组的目标转化率是提升到0.25），在显著性水平为0.05，功效为0.9的标准下，对应每个组需要样本量n：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pwr.2p.test(h=ES.h(<span class="number">0.25</span>,<span class="number">0.2</span>),sig.level = <span class="number">0.05</span>,power = <span class="number">0.9</span>,alternative = <span class="string">'greater'</span>)</span><br></pre></td></tr></table></figure>
+<p>结果显示，要达到以上标准，至少需要1191个样本。（注意，效应值为<code>ES.h(0.25,0.2)</code>）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># Difference of proportion power calculation for binomial distribution (arcsine transformation) </span><br><span class="line"># </span><br><span class="line"># h = 0.1199023</span><br><span class="line"># n = 1191.362</span><br><span class="line"># sig.level = 0.05</span><br><span class="line"># power = 0.9</span><br><span class="line"># alternative = greater</span><br><span class="line"># </span><br><span class="line"># NOTE: same sample sizes</span><br></pre></td></tr></table></figure></p>
+<p>以上即为确定目标和检验标准之后需要的样本量预估。特别提醒，对效应值的预估是最重要的，alpha和power一般都设置<code>0.05~0.1,0.8~0.9</code>即可，而效应值代表了对该实验目标的界定，如果设定的目标虚高，例如上面的测试组转化率要达到0.5，那么对应每组样本量只需要41个，而实际上测试组样本显示只有0.3的转化率，那么在给定这些的情况下算出来power必然小于设定值：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 样本显示两个组转率是0.3和0.2，因此效应值为h=ES.h(0.3,0.2)</span></span><br><span class="line">pwr.2p.test(h=ES.h(<span class="number">0.3</span>,<span class="number">0.2</span>),sig.level = <span class="number">0.05</span>,n=<span class="number">41</span>,alternative = <span class="string">'greater'</span>)</span><br></pre></td></tr></table></figure>
+<p>结果显示，0.3和0.2比例下的power只有0.28，因此必须继续放量试验，扩大样本量从而提高power。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># Difference of proportion power calculation for binomial distribution (arcsine transformation) </span><br><span class="line"># </span><br><span class="line"># h = 0.2319843</span><br><span class="line"># n = 41</span><br><span class="line"># sig.level = 0.05</span><br><span class="line"># power = 0.2760888</span><br><span class="line"># alternative = greater</span><br><span class="line"># </span><br><span class="line"># NOTE: same sample sizes</span><br></pre></td></tr></table></figure></p>
+<h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><ul>
+<li>卡巴科弗, 高涛, 肖楠, 陈钢. R语言实战 : R in action: data analysis and graphics with R[M]. 人民邮电出版社, 2013.</li>
+<li><a href="https://www.coursera.org/learn/statistical-inference" target="_blank" rel="noopener">coursera的统计推断-第四周课程</a></li>
+</ul>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/power/" rel="tag"># power</a>
+          
+            <a href="/tags/两类错误/" rel="tag"># 两类错误</a>
+          
+            <a href="/tags/样本量预估/" rel="tag"># 样本量预估</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/06/21/acknowledge-collect/" rel="next" title="认知提升——系列读书笔记">
+                <i class="fa fa-chevron-left"></i> 认知提升——系列读书笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -359,6 +561,20 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
 
         </div>
         
@@ -379,8 +595,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -440,6 +665,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#假设检验的两类错误"><span class="nav-number">1.</span> <span class="nav-text">假设检验的两类错误</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#alpha和power的详解"><span class="nav-number">2.</span> <span class="nav-text">alpha和power的详解</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#样本量的计算"><span class="nav-number">3.</span> <span class="nav-text">样本量的计算</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#代码示例"><span class="nav-number">3.1.</span> <span class="nav-text">代码示例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#示例-均值T检验"><span class="nav-number">3.1.1.</span> <span class="nav-text">示例-均值T检验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#示例-比例检验"><span class="nav-number">3.1.2.</span> <span class="nav-text">示例-比例检验</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#References"><span class="nav-number">4.</span> <span class="nav-text">References</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -580,6 +821,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
@@ -597,6 +842,18 @@
       <script id="dsq-count-scr" src="https://hetal.disqus.com/count.js" async></script>
     
 
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2020/07/18/hypothetical-test-power/';
+          this.page.identifier = '2020/07/18/hypothetical-test-power/';
+          this.page.title = '假设检验的两类错误-功效分析和样本量预估';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://hetal.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
     
 
   
